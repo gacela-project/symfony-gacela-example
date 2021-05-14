@@ -1,4 +1,7 @@
 {
+    "gacela-project/gacela": {
+        "version": "0.2.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
