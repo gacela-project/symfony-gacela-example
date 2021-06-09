@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": "^7.4|^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "gacela-project/gacela": "^0.2.0",

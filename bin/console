@@ -2,6 +2,7 @@
 <?php
 
 use App\Kernel;
+use Gacela\Framework\Config;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -39,5 +40,7 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+dd($kernel->getEnvironment());
+Config::setApplicationRootDir($kernel->getProjectDir());
 $application = new Application($kernel);
 $application->run($input);
