@@ -1,0 +1,7 @@
+{
+  "config": {
+    "type": "env",
+    "path": ".env*",
+    "path_local": ".env"
+  }
+}
