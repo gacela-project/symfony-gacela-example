@@ -1,6 +1,7 @@
 <?php
 
 use App\Kernel;
+use Gacela\Framework\Config;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,7 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+Config::setApplicationRootDir($kernel->getProjectDir());
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
