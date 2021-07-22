@@ -14,8 +14,8 @@ final class CalculatorTest extends TestCase
 
     public function setUp(): void
     {
-        Config::setApplicationRootDir(__DIR__);
-        Config::init();
+        Config::resetInstance();
+        Config::getInstance()->setApplicationRootDir(__DIR__);
         $this->facade = new CalculatorFacade();
     }
 

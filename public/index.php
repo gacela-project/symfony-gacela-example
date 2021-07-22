@@ -17,7 +17,7 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-Config::setApplicationRootDir($kernel->getProjectDir());
+Config::getInstance()->setApplicationRootDir($kernel->getProjectDir());
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
