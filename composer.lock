@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fe20597cb79dab654cd0bb3126b124c",
+    "content-hash": "6ca7bade2c5cf7f92e4a03aa058ff743",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1520,16 +1520,16 @@
         },
         {
             "name": "gacela-project/gacela",
-            "version": "0.6.0",
+            "version": "dev-feature/resolve-dependencies-config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "889c24d949fd981376f2c2c0e6d70a0c5ebd320d"
+                "reference": "96a5c0e9c4035e2aad0498b607882304deec0504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/889c24d949fd981376f2c2c0e6d70a0c5ebd320d",
-                "reference": "889c24d949fd981376f2c2c0e6d70a0c5ebd320d",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/96a5c0e9c4035e2aad0498b607882304deec0504",
+                "reference": "96a5c0e9c4035e2aad0498b607882304deec0504",
                 "shasum": ""
             },
             "require": {
@@ -1579,9 +1579,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela/issues",
-                "source": "https://github.com/gacela-project/gacela/tree/0.6.0"
+                "source": "https://github.com/gacela-project/gacela/tree/feature/resolve-dependencies-config"
             },
-            "time": "2021-07-27T19:34:38+00:00"
+            "time": "2021-08-03T07:40:22+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -6581,7 +6581,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -6976,6 +6975,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "gacela-project/gacela": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,

@@ -31,5 +31,10 @@ final class ProductFacade extends AbstractFacade
         return $this->productFactory
             ->createProductLister()
             ->getAllProducts();
+
+        // TODO: This doesn't work jet...
+//        return $this->getFactory()
+//            ->createProductLister()
+//            ->getAllProducts();
     }
 }
