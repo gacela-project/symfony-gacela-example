@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use App\Kernel;
 use Doctrine\Persistence\ManagerRegistry;
-use Gacela\Framework\ClassResolver\AbstractClassResolver;
+use Gacela\Framework\Util\GlobalServices;
 
 /** @var Kernel $kernel */
-$kernel = AbstractClassResolver::getGlobalInstance('symfomy/kernel');
+$kernel = GlobalServices::get('symfomy/kernel');
 
 return [
     'config' => [

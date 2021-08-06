@@ -4,6 +4,7 @@
 use App\Kernel;
 use Gacela\Framework\ClassResolver\AbstractClassResolver;
 use Gacela\Framework\Config;
+use Gacela\Framework\Util\GlobalServices;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -42,6 +43,6 @@ if ($_SERVER['APP_DEBUG']) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 Config::getInstance()->setApplicationRootDir($kernel->getProjectDir());
-AbstractClassResolver::addGlobal('symfomy/kernel', $kernel);
+GlobalServices::add('symfomy/kernel', $kernel);
 $application = new Application($kernel);
 $application->run($input);
