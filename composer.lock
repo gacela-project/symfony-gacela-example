@@ -1524,12 +1524,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "9a56517826bb223542d333480193dedbfce66aff"
+                "reference": "54fc5fe1eca2e23a230362f17a1fa483622c17c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/9a56517826bb223542d333480193dedbfce66aff",
-                "reference": "9a56517826bb223542d333480193dedbfce66aff",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/54fc5fe1eca2e23a230362f17a1fa483622c17c8",
+                "reference": "54fc5fe1eca2e23a230362f17a1fa483622c17c8",
                 "shasum": ""
             },
             "require": {
@@ -1581,7 +1581,7 @@
                 "issues": "https://github.com/gacela-project/gacela/issues",
                 "source": "https://github.com/gacela-project/gacela/tree/feature/resolve-dependencies-config"
             },
-            "time": "2021-08-05T20:29:49+00:00"
+            "time": "2021-08-06T09:15:05+00:00"
         },
         {
             "name": "laminas/laminas-code",
