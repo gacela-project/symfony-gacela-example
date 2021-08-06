@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ca7bade2c5cf7f92e4a03aa058ff743",
+    "content-hash": "22bfe0f3c0fb039e3445a285b87849f6",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1520,16 +1520,16 @@
         },
         {
             "name": "gacela-project/gacela",
-            "version": "dev-feature/resolve-dependencies-config",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "f06bcd66608c8ea7f9a23ed41c76b229dba03f89"
+                "reference": "3174fa790861c276d713a653cf1ef214b4e10c7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/f06bcd66608c8ea7f9a23ed41c76b229dba03f89",
-                "reference": "f06bcd66608c8ea7f9a23ed41c76b229dba03f89",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/3174fa790861c276d713a653cf1ef214b4e10c7c",
+                "reference": "3174fa790861c276d713a653cf1ef214b4e10c7c",
                 "shasum": ""
             },
             "require": {
@@ -1548,6 +1548,7 @@
             "suggest": {
                 "gacela-project/gacela-yaml-config-reader": "Allows to read yml/yaml config files"
             },
+            "default-branch": true,
             "bin": [
                 "gacela"
             ],
@@ -1579,9 +1580,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela/issues",
-                "source": "https://github.com/gacela-project/gacela/tree/feature/resolve-dependencies-config"
+                "source": "https://github.com/gacela-project/gacela/tree/master"
             },
-            "time": "2021-08-06T15:52:34+00:00"
+            "time": "2021-08-06T20:43:01+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -2894,16 +2895,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.13.3",
+            "version": "v1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "2597d0dda8042c43eed44a9cd07236b897e427d7"
+                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/2597d0dda8042c43eed44a9cd07236b897e427d7",
-                "reference": "2597d0dda8042c43eed44a9cd07236b897e427d7",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/d81196c3f3b544e32997b67e955fb8291fdfe770",
+                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770",
                 "shasum": ""
             },
             "require": {
@@ -2942,7 +2943,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.13.3"
+                "source": "https://github.com/symfony/flex/tree/v1.13.4"
             },
             "funding": [
                 {
@@ -2958,7 +2959,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-19T07:19:15+00:00"
+            "time": "2021-08-03T08:14:48+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -6986,5 +6987,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

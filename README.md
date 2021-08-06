@@ -8,12 +8,15 @@ application services.
 
 ## Commands
 
-There are two commands inside the Product module
+There are two commands inside the Product module:
 
 > Product > Infrastructure > Console > AddProductCommand | ListProductCommand
 
-- bin/console gacela:product:add {PRODUCT_NAME}
-- bin/console gacela:product:list
+```bash
+bin/console gacela:product:add {PRODUCT_NAME}
+
+bin/console gacela:product:list
+```
 
 This example repo uses sqlite, so you can easily check out and try it yourself :)
 
@@ -49,16 +52,16 @@ Afterwards, you can access to it easily in your `gacela.php` file:
 $kernel = GlobalServices::get('symfomy/kernel');
 ```
 
-and this way you can specify in the `'dependencies'` key, that when the `ManagerRegistry::class` is found, then
+and this way you can specify in the `'dependencies'` key, that when the `EntityManagerInterface::class` is found, then
 you want to resolve it using the "doctrine service" from the original kernel. For example:
 
 ```php
 
 return [
     'dependencies' => [
-        ManagerRegistry::class => static fn() => $kernel
+        EntityManagerInterface::class => static fn() => $kernel
             ->getContainer()
-            ->get('doctrine'),
+            ->get('doctrine.orm.entity_manager'),
     ],
 ];
 ```

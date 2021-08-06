@@ -13,5 +13,5 @@ interface ProductRepositoryInterface
     /**
      * @return list<int, Product>
      */
-    public function findAll();
+    public function findAll(): array;
 }
