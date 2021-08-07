@@ -77,7 +77,7 @@ you want to resolve it using the "doctrine service" from the original kernel. Fo
 ```php
 
 return [
-    'dependencies' => [
+    'mapping-interfaces' => [
         EntityManagerInterface::class => static fn() => $kernel
             ->getContainer()
             ->get('doctrine.orm.entity_manager'),
