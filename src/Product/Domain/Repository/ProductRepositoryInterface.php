@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Product\Domain\Repository;
 
-
 use App\Shared\Domain\Entity\Product;
 
 interface ProductRepositoryInterface
@@ -14,5 +13,5 @@ interface ProductRepositoryInterface
     /**
      * @return list<int, Product>
      */
-    public function findAll();
+    public function findAll(): array;
 }

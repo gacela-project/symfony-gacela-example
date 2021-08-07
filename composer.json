@@ -1,6 +1,5 @@
 {
     "type": "project",
-    "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -11,7 +10,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
-        "gacela-project/gacela": "^0.6",
+        "gacela-project/gacela": "dev-master",
         "symfony/console": "5.2.*",
         "symfony/dotenv": "5.2.*",
         "symfony/flex": "^1.3.1",

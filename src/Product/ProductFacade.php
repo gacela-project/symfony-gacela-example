@@ -7,18 +7,14 @@ namespace App\Product;
 use App\Shared\Domain\Entity\Product;
 use Gacela\Framework\AbstractFacade;
 
+/**
+ * @method ProductFactory getFactory()
+ */
 final class ProductFacade extends AbstractFacade
 {
-    private ProductFactory $productFactory;
-
-    public function __construct(ProductFactory $productFactory)
-    {
-        $this->productFactory = $productFactory;
-    }
-
     public function createNewProduct(string $name, ?int $price = null): void
     {
-        $this->productFactory
+        $this->getFactory()
             ->createProductCreator()
             ->createProduct($name, $price);
     }
@@ -28,7 +24,7 @@ final class ProductFacade extends AbstractFacade
      */
     public function getAllProducts(): array
     {
-        return $this->productFactory
+        return $this->getFactory()
             ->createProductLister()
             ->getAllProducts();
     }

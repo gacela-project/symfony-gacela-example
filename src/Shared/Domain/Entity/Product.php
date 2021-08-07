@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\Entity
  */
 class Product
 {

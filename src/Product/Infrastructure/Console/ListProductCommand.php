@@ -13,14 +13,6 @@ final class ListProductCommand extends Command
 {
     protected static $defaultName = 'gacela:product:list';
 
-    private ProductFacade $productFacade;
-
-    public function __construct(ProductFacade $productFacade)
-    {
-        parent::__construct(self::$defaultName);
-        $this->productFacade = $productFacade;
-    }
-
     protected function configure(): void
     {
         $this->setDescription('List all products');
@@ -28,7 +20,8 @@ final class ListProductCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $products = $this->productFacade->getAllProducts();
+        $facade = new ProductFacade();
+        $products = $facade->getAllProducts();
 
         foreach ($products as $product) {
             $output->writeln(sprintf(
