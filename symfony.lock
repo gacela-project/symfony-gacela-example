@@ -367,6 +367,12 @@
     "symfony/string": {
         "version": "v5.2.6"
     },
+    "symfony/translation-contracts": {
+        "version": "v2.4.0"
+    },
+    "symfony/twig-bridge": {
+        "version": "v5.2.12"
+    },
     "symfony/var-dumper": {
         "version": "v5.2.6"
     },
@@ -378,6 +384,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
+    },
+    "twig/twig": {
+        "version": "v3.3.2"
     },
     "webmozart/assert": {
         "version": "1.10.0"
