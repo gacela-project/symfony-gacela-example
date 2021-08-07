@@ -17,7 +17,7 @@ return [
         "path" => ".env*",
         "path_local" => ".env",
     ],
-    'dependencies' => [
+    'mapping-interfaces' => [
         ProductRepositoryInterface::class => ProductRepository::class,
         EntityManagerInterface::class => static fn() => $kernel
             ->getContainer()
