@@ -6,9 +6,13 @@ The trick is to allow the autowiring mechanism from Symfony so the Facade inject
 whatever you want. This is a useful way to get the Symfony Repositories in your Factory, so you can inject them in your
 application services.
 
-## Commands
+## User Input
 
-There are two commands inside the Product module:
+There are two commands and two controllers inside the Product module:
+
+This example repo uses sqlite, so you can easily check out and try it yourself :)
+
+### Commands
 
 > Product > Infrastructure > Console > AddProductCommand | ListProductCommand
 
@@ -18,7 +22,22 @@ bin/console gacela:product:add {PRODUCT_NAME}
 bin/console gacela:product:list
 ```
 
-This example repo uses sqlite, so you can easily check out and try it yourself :)
+### Controllers
+
+> Product > Infrastructure > Controller > AddProductController | ListProductController
+
+In order to run locally the application, run `symfony serve` ([instructions here](https://symfony.com/download))
+
+
+```bash
+php bin/console debug:router
+```
+
+| Name         | Method | Scheme | Host | Path        |
+|--------------|--------|--------|------|-------------|
+| product_list | GET    | ANY    | ANY  | /list       |
+| product_add  | GET    | ANY    | ANY  | /add/{name} |
+
 
 ## Injecting the Doctrine ProductRepository to the Facade Factory
 
