@@ -25,9 +25,5 @@ class Kernel extends BaseKernel
     {
         $routes->import('../config/{routes}/'.$this->environment.'/*.php');
         $routes->import('../config/{routes}/*.php');
-
-        if (is_file($path = \dirname(__DIR__).'/config/products.php')) {
-            (require $path)($routes->withPath($path), $this);
-        }
     }
 }
