@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\Util\GlobalServices;
 
 /** @var Kernel $kernel */
-$kernel = GlobalServices::get('symfomy/kernel');
+$kernel = GlobalServices::get('symfony/kernel');
 
 return [
     'config' => [

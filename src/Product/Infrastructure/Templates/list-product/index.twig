@@ -1,0 +1,15 @@
+{% extends "base.twig" %}
+
+{% block content %}
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }}</li>
+        {% else %}
+            <li>No products have been found</li>
+        {% endfor %}
+    </ul>
+
+    {% for message in app.flashes('success') %}
+        {{ message }}
+    {% endfor %}
+{% endblock %}
