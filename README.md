@@ -26,7 +26,7 @@ bin/console gacela:product:list
 
 > Product > Infrastructure > Controller > AddProductController | ListProductController
 
-In order to run locally the application, run `symfony serve` ([instructions here](https://symfony.com/download))
+In order to run locally the application, run `symfony server:start` ([instructions here](https://symfony.com/doc/current/setup/symfony_server.html))
 
 
 ```bash
@@ -43,8 +43,8 @@ php bin/console debug:router
 
 The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic
 that will automagically resolve its dependencies. The only exception is for interfaces, when there is no way what 
-do you want to inject there. In this case, you should use the 'dependencies' mapping (in `gacela.php`) to 
-specify what do you want to instanciate when an interface is found as a dependency.
+do you want to inject there. In this case, you should use the `'mapping-interfaces'` (in `gacela.php`) to 
+specify what you want to instantiate when an interface is found as a dependency.
 
 Actually, in our current context/example (using symfony) we want to use the `doctrine` service 
 from the `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff
@@ -71,7 +71,7 @@ Afterwards, you can access to it easily in your `gacela.php` file:
 $kernel = GlobalServices::get('symfony/kernel');
 ```
 
-and this way you can specify in the `'dependencies'` key, that when the `EntityManagerInterface::class` is found, then
+and this way you can specify in the `'mapping-interfaces'` key, that when the `EntityManagerInterface::class` is found, then
 you want to resolve it using the "doctrine service" from the original kernel. For example:
 
 ```php
