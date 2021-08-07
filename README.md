@@ -42,14 +42,14 @@ For example:
 # bin/console
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 Config::getInstance()->setApplicationRootDir($kernel->getProjectDir());
-GlobalServices::add('symfomy/kernel', $kernel);
+GlobalServices::add('symfony/kernel', $kernel);
 ```
 
 Afterwards, you can access to it easily in your `gacela.php` file:
 
 ```php
 /** @var Kernel $kernel */
-$kernel = GlobalServices::get('symfomy/kernel');
+$kernel = GlobalServices::get('symfony/kernel');
 ```
 
 and this way you can specify in the `'dependencies'` key, that when the `EntityManagerInterface::class` is found, then

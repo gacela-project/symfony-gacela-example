@@ -6,8 +6,10 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes) {
     $routes->add('product_list', '/list')
-        ->controller(ListProductController::class);
+        ->controller(ListProductController::class)
+        ->methods(['GET']);
 
-    $routes->add('product_add', '/add')
-        ->controller(AddProductController::class);
+    $routes->add('product_add', '/add/{name}')
+        ->controller(AddProductController::class)
+        ->methods(['GET']);
 };

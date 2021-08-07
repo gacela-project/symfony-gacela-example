@@ -5,32 +5,26 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Controller;
 
 use App\Product\ProductFacade;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
 
-final class ListProductController
+final class ListProductController extends AbstractController
 {
-//    private ProductFacade $facade;
-    private Environment $twig;
+    private ProductFacade $facade;
 
-    public function __construct(/*ProductFacade $facade,*/ Environment $twig)
+    public function __construct(ProductFacade $facade)
     {
-/*        $this->facade = $facade;*/
-        $this->twig = $twig;
+        $this->facade = $facade;
     }
 
     public function __invoke(Request $request): Response
     {
-        $facade = new ProductFacade();
-        $products = $facade->getAllProducts();
-//        $products = $this->facade->getAllProducts();
+        $products = $this->facade->getAllProducts();
 
-        return new Response(
-            $this->twig->render(
-                './../Templates/list-product/index.twig',
-                ['products' => $products]
-            )
+        return $this->render(
+            '/list-product/index.twig',
+            ['products' => $products]
         );
     }
 }

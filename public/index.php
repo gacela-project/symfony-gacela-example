@@ -19,7 +19,7 @@ if ($_SERVER['APP_DEBUG']) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 Config::getInstance()->setApplicationRootDir($kernel->getProjectDir());
-GlobalServices::add('symfomy/kernel', $kernel);
+GlobalServices::add('symfony/kernel', $kernel);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

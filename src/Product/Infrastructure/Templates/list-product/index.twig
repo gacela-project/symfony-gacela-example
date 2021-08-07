@@ -1,4 +1,4 @@
-{% extends "./../base.twig" %}
+{% extends "base.twig" %}
 
 {% block content %}
     <ul>
@@ -8,4 +8,8 @@
             <li>No products have been found</li>
         {% endfor %}
     </ul>
+
+    {% for message in app.flashes('success') %}
+        {{ message }}
+    {% endfor %}
 {% endblock %}

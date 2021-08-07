@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Controller;
 
 use App\Product\ProductFacade;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AddProductController
+final class AddProductController extends AbstractController
 {
     private ProductFacade $facade;
 
@@ -19,18 +20,11 @@ final class AddProductController
 
     public function __invoke(Request $request): Response
     {
-//        $facade = new ProductFacade();
-        $products = $this->facade->getAllProducts();
+        $name = $request->get('name');
+        $price = 123456;
+        $this->facade->createNewProduct($name, $price);
 
-        $result = '';
-        foreach ($products as $product) {
-            $result .= sprintf(
-                'Product name: %s, price: %s',
-                $product->getName(),
-                $product->getPrice(),
-            );
-        }
-
-        return new Response($result);
+        $this->addFlash("success", "The product {$name} has been created.");
+        return $this->redirectToRoute('product_list');
     }
 }
