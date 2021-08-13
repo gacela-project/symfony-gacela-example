@@ -42,9 +42,9 @@ php bin/console debug:router
 ## Injecting the Doctrine ProductRepository to the Facade Factory
 
 The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic
-that will automagically resolve its dependencies. The only exception is for interfaces, when there is no way what 
-do you want to inject there. In this case, you should use the `'mapping-interfaces'` (in `gacela.php`) to 
-specify what you want to instantiate when an interface is found as a dependency.
+that will automagically resolve its dependencies. The only exception is for interfaces, when there is no way to 
+discover what want to inject there. For this purpose, you simply need to define the mapping between the interfaces
+and to what do you want them to be resolved (in `gacela.php`): `mappingInterfaces(): array`
 
 Actually, in our current context/example (using symfony) we want to use the `doctrine` service 
 from the `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff
@@ -60,27 +60,32 @@ For example:
 ```php
 # bin/console
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-Config::getInstance()->setApplicationRootDir($kernel->getProjectDir());
-GlobalServices::add('symfony/kernel', $kernel);
+Gacela::bootstrap(
+    applicationRootDir: __DIR__,
+    globalServices: ['symfony/kernel' => $kernel]
+);
 ```
 
 Afterwards, you can access to it easily in your `gacela.php` file:
 
 ```php
-/** @var Kernel $kernel */
-$kernel = GlobalServices::get('symfony/kernel');
-```
+<?php
+return static function (array $globalServices): AbstractConfigGacela {
+    return new class($globalServices) extends AbstractConfigGacela {
+        
+        // ...
+        
+        public function mappingInterfaces(): array
+        {
+            /** @var Kernel $kernel */
+            $kernel = $this->getGlobalService('symfony/kernel');
 
-and this way you can specify in the `'mapping-interfaces'` key, that when the `EntityManagerInterface::class` is found, then
-you want to resolve it using the "doctrine service" from the original kernel. For example:
-
-```php
-
-return [
-    'mapping-interfaces' => [
-        EntityManagerInterface::class => static fn() => $kernel
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager'),
-    ],
-];
+            return [
+                EntityManagerInterface::class => static fn() => $kernel
+                    ->getContainer()
+                    ->get('doctrine.orm.entity_manager'),
+            ];
+        }
+    };
+};
 ```
