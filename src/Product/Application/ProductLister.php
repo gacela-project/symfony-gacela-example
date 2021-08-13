@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Product\Application;
 
-use App\Product\Domain\Repository\ProductRepositoryInterface;
+use App\Product\Domain\ProductRepositoryInterface;
 use App\Shared\Domain\Entity\Product;
 
 final class ProductLister
