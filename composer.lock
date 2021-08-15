@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01ff4905db9b096d28b19ffb90fe4659",
+    "content-hash": "446f55324d17e17a27dda9547c8f16bc",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1522,16 +1522,16 @@
         },
         {
             "name": "gacela-project/gacela",
-            "version": "0.7.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "08b7f3de487216cf2293104c85373a10ffe5d9d6"
+                "reference": "70ccab1e4a6d6d397155d28169550da72e39aff8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/08b7f3de487216cf2293104c85373a10ffe5d9d6",
-                "reference": "08b7f3de487216cf2293104c85373a10ffe5d9d6",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/70ccab1e4a6d6d397155d28169550da72e39aff8",
+                "reference": "70ccab1e4a6d6d397155d28169550da72e39aff8",
                 "shasum": ""
             },
             "require": {
@@ -1550,6 +1550,7 @@
             "suggest": {
                 "gacela-project/gacela-yaml-config-reader": "Allows to read yml/yaml config files"
             },
+            "default-branch": true,
             "bin": [
                 "gacela"
             ],
@@ -1581,9 +1582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela/issues",
-                "source": "https://github.com/gacela-project/gacela/tree/0.7.0"
+                "source": "https://github.com/gacela-project/gacela/tree/master"
             },
-            "time": "2021-08-07T13:40:51+00:00"
+            "time": "2021-08-13T16:06:05+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -7353,6 +7354,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "gacela-project/gacela": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,

@@ -7,22 +7,31 @@ use App\Product\Domain\ProductEntityManagerInterface;
 use App\Product\Domain\ProductRepositoryInterface;
 use App\Shared\Infrastructure\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Gacela\Framework\Util\GlobalServices;
+use Gacela\Framework\AbstractConfigGacela;
 
-/** @var Kernel $kernel */
-$kernel = GlobalServices::get('symfony/kernel');
+return static function (array $globalServices): AbstractConfigGacela {
+    return new class($globalServices) extends AbstractConfigGacela {
+        public function config(): array
+        {
+            return [
+                "type" => "env",
+                "path" => ".env*",
+                "path_local" => ".env",
+            ];
+        }
 
-return [
-    'config' => [
-        "type" => "env",
-        "path" => ".env*",
-        "path_local" => ".env",
-    ],
-    'mapping-interfaces' => [
-        ProductRepositoryInterface::class => ProductRepository::class,
-        ProductEntityManagerInterface::class => ProductRepository::class,
-        EntityManagerInterface::class => static fn() => $kernel
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager'),
-    ],
-];
+        public function mappingInterfaces(): array
+        {
+            /** @var Kernel $kernel */
+            $kernel = $this->getGlobalService('symfony/kernel');
+
+            return [
+                ProductRepositoryInterface::class => ProductRepository::class,
+                ProductEntityManagerInterface::class => ProductRepository::class,
+                EntityManagerInterface::class => static fn() => $kernel
+                    ->getContainer()
+                    ->get('doctrine.orm.entity_manager'),
+            ];
+        }
+    };
+};
