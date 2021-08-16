@@ -10,11 +10,13 @@ application services.
 
 There are two commands and two controllers inside the Product module:
 
-This example repo uses sqlite, so you can easily check out and try it yourself :)
+This repository example uses sqlite, so you can easily check out and try it yourself :)
+
+> PS: Don't forget to run `bin/console doctrine:migrations:migrate`
 
 ### Commands
 
-> Product > Infrastructure > Console > AddProductCommand | ListProductCommand
+> Product > Infrastructure > Console > { AddProductCommand | ListProductCommand }
 
 ```bash
 bin/console gacela:product:add {PRODUCT_NAME}
@@ -24,13 +26,12 @@ bin/console gacela:product:list
 
 ### Controllers
 
-> Product > Infrastructure > Controller > AddProductController | ListProductController
+> Product > Infrastructure > Controller > { AddProductController | ListProductController }
 
 In order to run locally the application, run `symfony server:start` ([instructions here](https://symfony.com/doc/current/setup/symfony_server.html))
 
-
 ```bash
-php bin/console debug:router
+bin/console debug:router
 ```
 
 | Name         | Method | Scheme | Host | Path        |
@@ -41,21 +42,19 @@ php bin/console debug:router
 
 ## Injecting the Doctrine ProductRepository to the Facade Factory
 
-The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic
-that will automagically resolve its dependencies. The only exception is for interfaces, when there is no way to 
-discover what want to inject there. For this purpose, you simply need to define the mapping between the interfaces
+The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic that will automagically 
+resolve its dependencies. The only exception is for interfaces, when there is no way to discover what want to inject there. 
+For this purpose, you simply need to define the mapping between the interfaces
 and to what do you want them to be resolved (in `gacela.php`): `mappingInterfaces(): array`
 
-Actually, in our current context/example (using symfony) we want to use the `doctrine` service 
-from the `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff
-already define as the original one would have. So you want to use the original one.
+Actually, in our current context/example (using symfony) we want to use the `doctrine` service from the
+`kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
+original one would have. So you want to use the original one.
 
 ### How can you use the original symfony kernel in Gacela?
 
 To use the original kernel you simply pass it as a global service in Gacela
-in the entry point of the application. It might be in the `public/index.php` or `bin/console`. 
-
-For example:
+in the entry point of the application. It might be in the `public/index.php` or `bin/console`.
 
 ```php
 # bin/console
@@ -66,7 +65,9 @@ Gacela::bootstrap(
 );
 ```
 
-Afterwards, you can access to it easily in your `gacela.php` file:
+Afterwards, you can access to it easily in your `gacela.php` file from the `$this->getGlobalService('symfony/kernel')`
+and this way you can specify in the `'dependencies'` that when the `EntityManagerInterface::class` is found, then you
+want to resolve it using the "doctrine service" from the original kernel.
 
 ```php
 <?php

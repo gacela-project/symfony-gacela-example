@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "446f55324d17e17a27dda9547c8f16bc",
+    "content-hash": "34af1d044ff857f78a9f92085aa6cd63",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1522,30 +1522,30 @@
         },
         {
             "name": "gacela-project/gacela",
-            "version": "dev-master",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "70ccab1e4a6d6d397155d28169550da72e39aff8"
+                "reference": "114848326b7664aa22cd9d2a4573a36ba3b5afa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/70ccab1e4a6d6d397155d28169550da72e39aff8",
-                "reference": "70ccab1e4a6d6d397155d28169550da72e39aff8",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/114848326b7664aa22cd9d2a4573a36ba3b5afa0",
+                "reference": "114848326b7664aa22cd9d2a4573a36ba3b5afa0",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=7.4",
-                "symfony/console": "^5.2"
+                "symfony/console": "^5.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
-                "phpbench/phpbench": "^1.0",
-                "phpstan/phpstan": "^0.12.90",
+                "phpbench/phpbench": "^1.1",
+                "phpstan/phpstan": "^0.12",
                 "phpunit/phpunit": "^9.5",
                 "symfony/var-dumper": "^5.3",
-                "vimeo/psalm": "^4.6"
+                "vimeo/psalm": "^4.9"
             },
             "suggest": {
                 "gacela-project/gacela-yaml-config-reader": "Allows to read yml/yaml config files"
@@ -1582,9 +1582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela/issues",
-                "source": "https://github.com/gacela-project/gacela/tree/master"
+                "source": "https://github.com/gacela-project/gacela/tree/0.8.0"
             },
-            "time": "2021-08-13T16:06:05+00:00"
+            "time": "2021-08-16T18:29:55+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -2110,12 +2110,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "05185ba47605665f3db5e2fa97eafeea64c2d4ab"
+                "reference": "c3d4fbd2bc3e3a39dc941a0db421818a3e3cab2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/05185ba47605665f3db5e2fa97eafeea64c2d4ab",
-                "reference": "05185ba47605665f3db5e2fa97eafeea64c2d4ab",
+                "url": "https://api.github.com/repos/symfony/console/zipball/c3d4fbd2bc3e3a39dc941a0db421818a3e3cab2d",
+                "reference": "c3d4fbd2bc3e3a39dc941a0db421818a3e3cab2d",
                 "shasum": ""
             },
             "require": {
@@ -2201,7 +2201,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-13T15:59:15+00:00"
+            "time": "2021-08-16T16:03:21+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2547,12 +2547,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "004e6454ecc2e73b8ac3cc878d63b43476dca89b"
+                "reference": "dc1c479a7f0c07081eff26d101744a1666bbeae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/004e6454ecc2e73b8ac3cc878d63b43476dca89b",
-                "reference": "004e6454ecc2e73b8ac3cc878d63b43476dca89b",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/dc1c479a7f0c07081eff26d101744a1666bbeae6",
+                "reference": "dc1c479a7f0c07081eff26d101744a1666bbeae6",
                 "shasum": ""
             },
             "require": {
@@ -2607,7 +2607,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-05T13:47:59+00:00"
+            "time": "2021-08-16T16:03:21+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3941,12 +3941,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "8b23d3d4104e2ebcb7ad18444e773857c72b960f"
+                "reference": "44a2644f74e3aa13bcff5156a9d4e0527e3e12ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/8b23d3d4104e2ebcb7ad18444e773857c72b960f",
-                "reference": "8b23d3d4104e2ebcb7ad18444e773857c72b960f",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/44a2644f74e3aa13bcff5156a9d4e0527e3e12ed",
+                "reference": "44a2644f74e3aa13bcff5156a9d4e0527e3e12ed",
                 "shasum": ""
             },
             "require": {
@@ -4023,7 +4023,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-12T13:55:08+00:00"
+            "time": "2021-08-16T16:03:21+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -4333,12 +4333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "cb30834bff12d72eb29101fdf06a2d1641c3d7e6"
+                "reference": "354b9d0f862f586c95fb3f51e724318c824bb1c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/cb30834bff12d72eb29101fdf06a2d1641c3d7e6",
-                "reference": "cb30834bff12d72eb29101fdf06a2d1641c3d7e6",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/354b9d0f862f586c95fb3f51e724318c824bb1c9",
+                "reference": "354b9d0f862f586c95fb3f51e724318c824bb1c9",
                 "shasum": ""
             },
             "require": {
@@ -4446,7 +4446,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-13T16:23:12+00:00"
+            "time": "2021-08-16T16:03:21+00:00"
         },
         {
             "name": "symfony/twig-bundle",
@@ -4631,12 +4631,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "40cccdc22e0161b75442807d5887a24dfcedc95a"
+                "reference": "b57bcf250c341a7489ee8747c787d30eeb14b5f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/40cccdc22e0161b75442807d5887a24dfcedc95a",
-                "reference": "40cccdc22e0161b75442807d5887a24dfcedc95a",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/b57bcf250c341a7489ee8747c787d30eeb14b5f5",
+                "reference": "b57bcf250c341a7489ee8747c787d30eeb14b5f5",
                 "shasum": ""
             },
             "require": {
@@ -4696,7 +4696,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-12T09:55:17+00:00"
+            "time": "2021-08-16T16:03:21+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -4704,12 +4704,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "41b657155fdc35794746dcaaf799c8631061a4a3"
+                "reference": "2b3a8e5bfa1431c1660dfa6421a10ed6b5525464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/41b657155fdc35794746dcaaf799c8631061a4a3",
-                "reference": "41b657155fdc35794746dcaaf799c8631061a4a3",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/2b3a8e5bfa1431c1660dfa6421a10ed6b5525464",
+                "reference": "2b3a8e5bfa1431c1660dfa6421a10ed6b5525464",
                 "shasum": ""
             },
             "require": {
@@ -4720,10 +4720,10 @@
                 "symfony/polyfill-php81": "^1.22"
             },
             "conflict": {
-                "symfony/console": "<4.4"
+                "symfony/console": "<5.3"
             },
             "require-dev": {
-                "symfony/console": "^4.4|^5.0|^6.0"
+                "symfony/console": "^5.3|^6.0"
             },
             "suggest": {
                 "symfony/console": "For validating YAML files using the lint command"
@@ -4773,7 +4773,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-29T06:20:44+00:00"
+            "time": "2021-08-14T21:43:09+00:00"
         },
         {
             "name": "twig/twig",
@@ -7365,5 +7365,8 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.4"
+    },
     "plugin-api-version": "2.0.0"
 }

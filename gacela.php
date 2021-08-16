@@ -14,9 +14,9 @@ return static function (array $globalServices): AbstractConfigGacela {
         public function config(): array
         {
             return [
-                "type" => "env",
-                "path" => ".env*",
-                "path_local" => ".env",
+                'type' => 'env',
+                'path' => '.env*',
+                'path_local' => '.env',
             ];
         }
 
