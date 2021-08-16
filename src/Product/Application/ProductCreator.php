@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Product\Application;
 
-use App\Product\Domain\Repository\ProductRepositoryInterface;
+use App\Product\Domain\ProductEntityManagerInterface;
 use App\Shared\Domain\Entity\Product;
 
 final class ProductCreator
 {
-    private ProductRepositoryInterface $productRepository;
+    private ProductEntityManagerInterface $productEntityManager;
 
     private int $defaultPrice;
 
     public function __construct(
-        ProductRepositoryInterface $productRepository,
-        int $defaultPrice
+        ProductEntityManagerInterface $productEntityManager,
+        int  $defaultPrice
     ) {
-        $this->productRepository = $productRepository;
+        $this->productEntityManager = $productEntityManager;
         $this->defaultPrice = $defaultPrice;
     }
 
@@ -27,7 +27,7 @@ final class ProductCreator
             ->setName($name)
             ->setPrice($price ?? $this->defaultPrice);
 
-        $this->productRepository->save($product);
+        $this->productEntityManager->save($product);
         # send events, or emails, or whatever
     }
 }

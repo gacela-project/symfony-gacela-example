@@ -28,7 +28,7 @@ bin/console gacela:product:list
 
 > Product > Infrastructure > Controller > { AddProductController | ListProductController }
 
-In order to run locally the application, run `symfony serve` ([instructions here](https://symfony.com/download))
+In order to run locally the application, run `symfony server:start` ([instructions here](https://symfony.com/doc/current/setup/symfony_server.html))
 
 ```bash
 bin/console debug:router
@@ -42,10 +42,10 @@ bin/console debug:router
 
 ## Injecting the Doctrine ProductRepository to the Facade Factory
 
-The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic that will automagically
-resolve its dependencies. The only exception is for interfaces, when there is no way what do you want to inject there.
-In this case, you should use the 'dependencies' mapping (in `gacela.php`) to specify what do you want to instantiate
-when an interface is found as a dependency.
+The Gacela Factory (as well as the Config and DependencyProvider) has an autowiring logic that will automagically 
+resolve its dependencies. The only exception is for interfaces, when there is no way to discover what want to inject there. 
+For this purpose, you simply need to define the mapping between the interfaces
+and to what do you want them to be resolved (in `gacela.php`): `mappingInterfaces(): array`
 
 Actually, in our current context/example (using symfony) we want to use the `doctrine` service from the
 `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
@@ -59,7 +59,10 @@ in the entry point of the application. It might be in the `public/index.php` or 
 ```php
 # bin/console
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
+Gacela::bootstrap(
+    applicationRootDir: __DIR__,
+    globalServices: ['symfony/kernel' => $kernel]
+);
 ```
 
 Afterwards, you can access to it easily in your `gacela.php` file from the `$this->getGlobalService('symfony/kernel')`
@@ -67,15 +70,18 @@ and this way you can specify in the `'dependencies'` that when the `EntityManage
 want to resolve it using the "doctrine service" from the original kernel.
 
 ```php
+<?php
 return static function (array $globalServices): AbstractConfigGacela {
     return new class($globalServices) extends AbstractConfigGacela {
+        
+        // ...
+        
         public function mappingInterfaces(): array
         {
             /** @var Kernel $kernel */
             $kernel = $this->getGlobalService('symfony/kernel');
 
             return [
-                ProductRepositoryInterface::class => ProductRepository::class,
                 EntityManagerInterface::class => static fn() => $kernel
                     ->getContainer()
                     ->get('doctrine.orm.entity_manager'),

@@ -1550,6 +1550,7 @@
             "suggest": {
                 "gacela-project/gacela-yaml-config-reader": "Allows to read yml/yaml config files"
             },
+            "default-branch": true,
             "bin": [
                 "gacela"
             ],
@@ -7353,6 +7354,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "gacela-project/gacela": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
@@ -7366,5 +7368,5 @@
     "platform-overrides": {
         "php": "7.4"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
