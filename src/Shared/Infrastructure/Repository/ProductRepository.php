@@ -18,12 +18,8 @@ final class ProductRepository implements ProductRepositoryInterface, ProductEnti
         $this->entityManager = $entityManager;
     }
 
-    public function save(Product $productTransfer): void
+    public function save(Product $product): void
     {
-        $product = (new Product())
-            ->setPrice($productTransfer->getPrice())
-            ->setName($productTransfer->getName());
-
         $this->entityManager->persist($product);
         $this->entityManager->flush();
     }

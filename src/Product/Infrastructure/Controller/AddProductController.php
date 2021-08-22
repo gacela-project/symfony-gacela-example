@@ -21,7 +21,7 @@ final class AddProductController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $name = $request->get('name');
-        $price = 123456;
+        $price = (int)$request->get('price', 123456);
         $this->facade->createNewProduct($name, $price);
 
         $this->addFlash("success", "The product {$name} has been created.");

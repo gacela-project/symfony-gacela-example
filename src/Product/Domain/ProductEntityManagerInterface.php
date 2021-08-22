@@ -8,5 +8,5 @@ use App\Shared\Domain\Entity\Product;
 
 interface ProductEntityManagerInterface
 {
-    public function save(Product $productTransfer): void;
+    public function save(Product $product): void;
 }

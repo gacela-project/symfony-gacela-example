@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Console;
 
 use App\Product\ProductFacade;
-use App\Shared\Domain\Entity\Product;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,14 +25,16 @@ final class AddProductCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Add new product')
-            ->addArgument('name', InputArgument::REQUIRED);
+            ->addArgument('name', InputArgument::REQUIRED)
+            ->addArgument('price', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
+        $price = (int)$input->getArgument('price');
 
-        $this->productFacade->createNewProduct($name);
+        $this->productFacade->createNewProduct($name, $price);
 
         $output->writeln($name . ' product created successfully');
 

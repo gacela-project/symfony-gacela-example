@@ -9,7 +9,8 @@ return static function (RoutingConfigurator $routes) {
         ->controller(ListProductController::class)
         ->methods(['GET']);
 
-    $routes->add('product_add', '/add/{name}')
+    $routes->add('product_add', '/add/{name}/{price}')
         ->controller(AddProductController::class)
+        ->defaults(['price' => 0])
         ->methods(['GET']);
 };
