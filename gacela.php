@@ -9,8 +9,8 @@ use App\Shared\Infrastructure\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\AbstractConfigGacela;
 
-return static function (array $globalServices): AbstractConfigGacela {
-    return new class($globalServices) extends AbstractConfigGacela {
+return static function (): AbstractConfigGacela {
+    return new class() extends AbstractConfigGacela {
         public function config(): array
         {
             return [
@@ -20,10 +20,10 @@ return static function (array $globalServices): AbstractConfigGacela {
             ];
         }
 
-        public function mappingInterfaces(): array
+        public function mappingInterfaces(array $globalServices): array
         {
             /** @var Kernel $kernel */
-            $kernel = $this->getGlobalService('symfony/kernel');
+            $kernel = $globalServices['symfony/kernel'];
 
             return [
                 ProductRepositoryInterface::class => ProductRepository::class,
