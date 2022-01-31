@@ -96,17 +96,16 @@ kernel.
 ```php
 <?php
 return static fn () => new class() extends AbstractConfigGacela {
-        public function mappingInterfaces(array $globalServices): array
-        {
-            /** @var Kernel $kernel */
-            $kernel = $globalServices['symfony/kernel'];
+    public function mappingInterfaces(array $globalServices): array
+    {
+        /** @var Kernel $kernel */
+        $kernel = $globalServices['symfony/kernel'];
 
-            return [
-                EntityManagerInterface::class => static fn() => $kernel
-                    ->getContainer()
-                    ->get('doctrine.orm.entity_manager'),
-            ];
-        }
-    };
+        return [
+            EntityManagerInterface::class => static fn() => $kernel
+                ->getContainer()
+                ->get('doctrine.orm.entity_manager'),
+        ];
+    }
 };
 ```
