@@ -1,6 +1,8 @@
 <?php
 
 use App\Kernel;
+use Gacela\Framework\Config;
+use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 use Gacela\Framework\Gacela;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
@@ -17,6 +19,9 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+Config::setConfigReaders([
+    'env' => new EnvConfigReader(),
+]);
 # OPTION A: Using gacela.php
 Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 /*

@@ -88,6 +88,9 @@
     "gacela-project/gacela": {
         "version": "0.3.0"
     },
+    "gacela-project/gacela-env-config-reader": {
+        "version": "dev-master"
+    },
     "laminas/laminas-code": {
         "version": "4.4.2"
     },

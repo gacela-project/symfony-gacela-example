@@ -15,7 +15,7 @@ final class ProductCreator
 
     public function __construct(
         ProductEntityManagerInterface $productEntityManager,
-        int  $defaultPrice
+        int $defaultPrice
     ) {
         $this->productEntityManager = $productEntityManager;
         $this->defaultPrice = $defaultPrice;
@@ -28,6 +28,6 @@ final class ProductCreator
             ->setPrice($price ?? $this->defaultPrice);
 
         $this->productEntityManager->save($product);
-        # send events, or emails, or whatever
+        # send events, emails, or whatever
     }
 }

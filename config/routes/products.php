@@ -11,6 +11,6 @@ return static function (RoutingConfigurator $routes) {
 
     $routes->add('product_add', '/add/{name}/{price}')
         ->controller(AddProductController::class)
-        ->defaults(['price' => 0])
+        ->defaults(['price' => null])
         ->methods(['GET']);
 };

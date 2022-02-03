@@ -32,12 +32,21 @@ final class AddProductCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $price = (int)$input->getArgument('price');
+        $price = $input->getArgument('price');
+
+        $this->validatePriceInput($price);
 
         $this->productFacade->createNewProduct($name, $price);
 
         $output->writeln($name . ' product created successfully');
 
         return Command::SUCCESS;
+    }
+
+    private function validatePriceInput($price): void
+    {
+        if (null !== $price && !filter_var($price, FILTER_VALIDATE_INT)) {
+            throw new \RuntimeException('Second parameter [price] must be of type integer');
+        }
     }
 }
