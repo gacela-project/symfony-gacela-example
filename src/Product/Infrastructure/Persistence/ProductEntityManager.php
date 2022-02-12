@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Persistence;
 
-use App\Product\Domain\ProductRepositoryInterface;
+use App\Product\Domain\ProductEntityManagerInterface;
+use App\Shared\Domain\Entity\Product;
 use App\Shared\Infrastructure\Repository\DoctrineProductRepository;
 use Gacela\Framework\AbstractCustomService;
 
-final class ProductRepository extends AbstractCustomService implements ProductRepositoryInterface
+final class ProductEntityManager extends AbstractCustomService implements ProductEntityManagerInterface
 {
     private DoctrineProductRepository $doctrineRepository;
 
@@ -17,8 +18,8 @@ final class ProductRepository extends AbstractCustomService implements ProductRe
         $this->doctrineRepository = $doctrineRepository;
     }
 
-    public function findAll(): array
+    public function save(Product $product): void
     {
-        return $this->doctrineRepository->findAll();
+        $this->doctrineRepository->save($product);
     }
 }
