@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Repository;
 
-use App\Product\Domain\ProductEntityManagerInterface;
-use App\Product\Domain\ProductRepositoryInterface;
 use App\Shared\Domain\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ProductRepository implements ProductRepositoryInterface, ProductEntityManagerInterface
+final class DoctrineProductRepository
 {
     private EntityManagerInterface $entityManager;
 

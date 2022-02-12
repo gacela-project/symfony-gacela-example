@@ -10,7 +10,7 @@
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
-        "gacela-project/gacela": "0.11",
+        "gacela-project/gacela": "dev-master",
         "gacela-project/gacela-env-config-reader": "dev-master",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",

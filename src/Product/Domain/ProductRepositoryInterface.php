@@ -9,7 +9,7 @@ use App\Shared\Domain\Entity\Product;
 interface ProductRepositoryInterface
 {
     /**
-     * @return list<int, Product>
+     * @return list<int,Product>
      */
     public function findAll(): array;
 }

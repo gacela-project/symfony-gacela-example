@@ -32,7 +32,7 @@ final class AddProductCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $price = $input->getArgument('price');
+        $price = (int)$input->getArgument('price');
 
         $this->validatePriceInput($price);
 

@@ -1,8 +1,6 @@
 <?php
 
 use App\Kernel;
-use Gacela\Framework\Config;
-use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 use Gacela\Framework\Gacela;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
@@ -19,11 +17,8 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-Config::setConfigReaders([
-    'env' => new EnvConfigReader(),
-]);
 # OPTION A: Using gacela.php
-Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
+Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel,]);
 /*
     # OPTION B: Directly here. Without the need for gacela.php
     Gacela::bootstrap($kernel->getProjectDir(), [
@@ -33,12 +28,16 @@ Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
             'path_local' => '.env',
         ],
         'mapping-interfaces' => [
-            ProductRepositoryInterface::class => ProductRepository::class,
-            ProductEntityManagerInterface::class => ProductRepository::class,
-            EntityManagerInterface::class => static fn() => $kernel
+            \Doctrine\ORM\EntityManagerInterface::class => static fn() => $kernel
                 ->getContainer()
                 ->get('doctrine.orm.entity_manager'),
         ],
+        'config-readers' => [
+            'env' => new \Gacela\Framework\Config\ConfigReader\EnvConfigReader(),
+        ],
+        'custom-service-paths' => [
+            'Infrastructure\Persistence',
+        ]
     ]);
 */
 $request = Request::createFromGlobals();
