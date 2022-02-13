@@ -23,18 +23,23 @@ final class AddProductController extends AbstractController
         $name = $request->get('name');
         $price = $request->get('price');
 
-        $this->validatePriceInput($price);
+        $this->facade->createNewProduct($name, $this->validatePriceInput($price));
 
-        $this->facade->createNewProduct($name, $price);
+        $this->addFlash('success', "The product {$name} has been created.");
 
-        $this->addFlash("success", "The product {$name} has been created.");
         return $this->redirectToRoute('product_list');
     }
 
-    private function validatePriceInput($price): void
+    private function validatePriceInput(?string $price): ?int
     {
-        if (null !== $price && !filter_var($price, FILTER_VALIDATE_INT)) {
-            throw new \RuntimeException('Second parameter [price] must be of type integer');
+        if ($price === null) {
+            return null;
         }
+
+        if (filter_var($price, FILTER_VALIDATE_INT) === 0 || !filter_var($price, FILTER_VALIDATE_INT) === false) {
+            return (int) $price;
+        }
+
+        throw new \RuntimeException('Second parameter [price] must be of type integer');
     }
 }
