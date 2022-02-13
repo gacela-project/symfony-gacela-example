@@ -8,6 +8,7 @@ use App\Product\ProductFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddProductCommand extends Command
@@ -26,27 +27,31 @@ final class AddProductCommand extends Command
     {
         $this->setDescription('Add new product')
             ->addArgument('name', InputArgument::REQUIRED)
-            ->addArgument('price', InputArgument::OPTIONAL);
+            ->addOption('price', null, InputOption::VALUE_OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $price = (int)$input->getArgument('price');
+        $price = $input->getOption('price');
 
-        $this->validatePriceInput($price);
-
-        $this->productFacade->createNewProduct($name, $price);
+        $this->productFacade->createNewProduct($name, $this->validatePriceInput($price));
 
         $output->writeln($name . ' product created successfully');
 
         return Command::SUCCESS;
     }
 
-    private function validatePriceInput($price): void
+    private function validatePriceInput(?string $price): ?int
     {
-        if (null !== $price && !filter_var($price, FILTER_VALIDATE_INT)) {
-            throw new \RuntimeException('Second parameter [price] must be of type integer');
+        if ($price === null) {
+            return null;
         }
+
+        if (filter_var($price, FILTER_VALIDATE_INT) === 0 || !filter_var($price, FILTER_VALIDATE_INT) === false) {
+            return (int) $price;
+        }
+
+        throw new \RuntimeException('Second parameter [price] must be of type integer');
     }
 }

@@ -18,12 +18,11 @@ if ($_SERVER['APP_DEBUG']) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 # OPTION A: Using gacela.php
-Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel,]);
+Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 /*
     # OPTION B: Directly here. Without the need for gacela.php
     Gacela::bootstrap($kernel->getProjectDir(), [
         'config' => [
-            'type' => 'env',
             'path' => '.env*',
             'path_local' => '.env',
         ],

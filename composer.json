@@ -1,7 +1,8 @@
 {
+    "name": "gacela-project/symfony-gacela-example",
     "type": "project",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "description": "Symfony using Gacela Framework",
+    "keywords": ["framework", "gacela", "symfony"],
     "require": {
         "php": "^7.4|^8.0",
         "ext-ctype": "*",
@@ -26,6 +27,34 @@
         "symfony/maker-bundle": "^1.36",
         "symfony/phpunit-bridge": "^5.4"
     },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "5.4.*"
+        }
+    },
     "config": {
         "platform": {
             "php": "7.4"
@@ -40,40 +69,14 @@
             "symfony/flex": true
         }
     },
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
-        }
-    },
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*"
     },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
     "conflict": {
         "symfony/symfony": "*"
     },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "5.4.*"
-        }
-    }
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

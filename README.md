@@ -19,7 +19,7 @@ This repository example uses sqlite, so you can easily check out and try it your
 > Product > Infrastructure > Console > { AddProductCommand | ListProductCommand }
 
 ```bash
-bin/console gacela:product:add {PRODUCT_NAME}
+bin/console gacela:product:add {PRODUCT_NAME} [--price={PRODUCT-PRICE}]
 
 bin/console gacela:product:list
 ```
@@ -34,10 +34,10 @@ In order to run locally the application, run `symfony server:start` ([instructio
 bin/console debug:router
 ```
 
-| Name         | Method | Scheme | Host | Path        |
-|--------------|--------|--------|------|-------------|
-| product_list | GET    | ANY    | ANY  | /list       |
-| product_add  | GET    | ANY    | ANY  | /add/{name} |
+| Name         | Method | Scheme | Host | Path                |
+|--------------|--------|--------|------|---------------------|
+| product_list | GET    | ANY    | ANY  | /list               |
+| product_add  | GET    | ANY    | ANY  | /add/{name}/{price} |
 
 
 ## Injecting the Doctrine ProductRepository to the Facade Factory
@@ -55,15 +55,22 @@ Gacela::bootstrap(
 ```
 - OPTION B: Directly in the bootstrap, as globalServices. This way you don't need a `gacela.php` file.
 ```php
+$kernel = new Kernel(...);
 Gacela::bootstrap($kernel->getProjectDir(), [
     'config' => [
-        'type' => 'env',
         'path' => '.env*',
         'path_local' => '.env',
     ],
+    'config-readers' => [
+        'env' => new Gacela\Framework\Config\ConfigReader\EnvConfigReader();
+    ],
     'mapping-interfaces' => [
-        ProductRepositoryInterface::class => ProductRepository::class,
-        // etc ...
+        EntityManagerInterface::class => static fn() => $kernel
+                ->getContainer()
+                ->get('doctrine.orm.entity_manager'),
+    ],
+    'custom-service-paths' => [
+        return ['Infrastructure/Persistence'];
     ],
 ]);
 ```

@@ -2,7 +2,6 @@
 <?php
 
 use App\Kernel;
-use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 use Gacela\Framework\Gacela;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;

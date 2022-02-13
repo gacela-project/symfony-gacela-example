@@ -11,7 +11,6 @@ return static fn() => new class() extends AbstractConfigGacela {
     public function config(): array
     {
         return [
-            'type' => 'env',
             'path' => '.env*',
             'path_local' => '.env',
         ];
