@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Domain\Entity;
+namespace App\Product\Infrastructure\Persistence;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class Product
 {

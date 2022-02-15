@@ -10,9 +10,9 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            App\Product:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Shared/Domain/Entity'
-                prefix: 'App\Shared\Domain\Entity'
+                dir: '%kernel.project_dir%/src/Product/Infrastructure/Persistence'
+                prefix: 'App\Product\Infrastructure\Persistence'
                 alias: App

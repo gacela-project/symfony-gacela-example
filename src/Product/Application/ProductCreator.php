@@ -4,30 +4,30 @@ declare(strict_types=1);
 
 namespace App\Product\Application;
 
-use App\Product\Domain\ProductEntityManagerInterface;
-use App\Shared\Domain\Entity\Product;
+use App\Product\Domain\ProductTransfer;
+use App\Product\Domain\ProductRepositoryInterface;
 
 final class ProductCreator
 {
-    private ProductEntityManagerInterface $productEntityManager;
+    private ProductRepositoryInterface $repository;
 
     private int $defaultPrice;
 
     public function __construct(
-        ProductEntityManagerInterface $productEntityManager,
+        ProductRepositoryInterface $productEntityManager,
         int $defaultPrice
     ) {
-        $this->productEntityManager = $productEntityManager;
+        $this->repository = $productEntityManager;
         $this->defaultPrice = $defaultPrice;
     }
 
     public function createProduct(string $name, ?int $price = null): void
     {
-        $product = (new Product())
+        $product = (new ProductTransfer())
             ->setName($name)
             ->setPrice($price ?? $this->defaultPrice);
 
-        $this->productEntityManager->save($product);
+        $this->repository->save($product);
         # send events, emails, or whatever
     }
 }

@@ -4,21 +4,41 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Persistence;
 
+use App\Product\Domain\ProductTransfer;
 use App\Product\Domain\ProductRepositoryInterface;
-use App\Shared\Infrastructure\Repository\DoctrineProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\AbstractCustomService;
 
+/**
+ * @method PersistenceFactory getFactory()
+ */
 final class ProductRepository extends AbstractCustomService implements ProductRepositoryInterface
 {
-    private DoctrineProductRepository $doctrineRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(DoctrineProductRepository $doctrineRepository)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->doctrineRepository = $doctrineRepository;
+        $this->entityManager = $entityManager;
+    }
+
+    public function save(ProductTransfer $product): void
+    {
+        $productEntity = (new Product())
+            ->setName($product->getName())
+            ->setPrice($product->getPrice());
+
+        $this->entityManager->persist($productEntity);
+        $this->entityManager->flush();
     }
 
     public function findAll(): array
     {
-        return $this->doctrineRepository->findAll();
+        $productEntities = $this->entityManager
+            ->getRepository(Product::class)
+            ->findAll();
+
+        return $this->getFactory()
+            ->createProductMapper()
+            ->mapEntitiesToDomain($productEntities);
     }
 }

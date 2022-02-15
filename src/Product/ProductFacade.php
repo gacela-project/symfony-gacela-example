@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Product;
 
-use App\Product\Domain\ProductRepositoryInterface;
-use App\Shared\Domain\Entity\Product;
+use App\Product\Domain\ProductTransfer;
 use Gacela\Framework\AbstractFacade;
 
 /**
  * @method ProductFactory getFactory()
- * @method ProductRepositoryInterface getRepository()
  */
 final class ProductFacade extends AbstractFacade
 {
@@ -22,10 +20,12 @@ final class ProductFacade extends AbstractFacade
     }
 
     /**
-     * @return list<Product>
+     * @return list<ProductTransfer>
      */
     public function getAllProducts(): array
     {
-        return $this->getRepository()->findAll();
+        return $this->getFactory()
+            ->createProductLister()
+            ->findAll();
     }
 }

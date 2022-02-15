@@ -8,7 +8,6 @@ use App\Product\ProductFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddProductCommand extends Command
@@ -27,13 +26,13 @@ final class AddProductCommand extends Command
     {
         $this->setDescription('Add new product')
             ->addArgument('name', InputArgument::REQUIRED)
-            ->addOption('price', null, InputOption::VALUE_OPTIONAL);
+            ->addArgument('price', InputArgument::OPTIONAL, '1');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $price = $input->getOption('price');
+        $price = $input->getArgument('price');
 
         $this->productFacade->createNewProduct($name, $this->validatePriceInput($price));
 
@@ -49,7 +48,7 @@ final class AddProductCommand extends Command
         }
 
         if (filter_var($price, FILTER_VALIDATE_INT) === 0 || !filter_var($price, FILTER_VALIDATE_INT) === false) {
-            return (int) $price;
+            return (int)$price;
         }
 
         throw new \RuntimeException('Second parameter [price] must be of type integer');

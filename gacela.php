@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Kernel;
+use App\Product\Domain\ProductRepositoryInterface;
+use App\Product\Infrastructure\Persistence\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\AbstractConfigGacela;
 use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
@@ -29,15 +31,22 @@ return static fn() => new class() extends AbstractConfigGacela {
         $kernel = $globalServices['symfony/kernel'];
 
         return [
+            ProductRepositoryInterface::class => ProductRepository::class,
             EntityManagerInterface::class => static fn() => $kernel
                 ->getContainer()
                 ->get('doctrine.orm.entity_manager'),
         ];
     }
 
+    public function setRepositoryNamespace(): string
+    {
+        return 'Infrastructure\Persistence';
+    }
+
     public function customServicePaths(): array
     {
         return [
+            'Application',
             'Infrastructure\Persistence',
         ];
     }
