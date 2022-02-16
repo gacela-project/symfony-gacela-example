@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Console;
 
+use App\Product\Domain\ProductTransfer;
 use App\Product\ProductFacade;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,13 +22,13 @@ final class ListProductCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $facade = new ProductFacade();
-        $products = $facade->getAllProducts();
+        $productTransfers = $facade->getAllProducts();
 
-        foreach ($products as $product) {
+        foreach ($productTransfers as $productTransfer) {
             $output->writeln(sprintf(
                 'Product name: %s, price: %s',
-                $product->getName(),
-                $product->getPrice(),
+                $productTransfer->getName(),
+                $productTransfer->getPrice(),
             ));
         }
 

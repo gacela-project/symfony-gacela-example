@@ -4,56 +4,22 @@ declare(strict_types=1);
 
 namespace App\Product\Domain;
 
-use App\Product\Infrastructure\Persistence\Product;
+use App\Shared\Transfer\AbstractTransfer;
 
-final class ProductTransfer
+/**
+ * @method int|null getId()
+ *
+ * @method string|null getName()
+ * @method self setName(string $name)
+ *
+ * @method int|null getPrice()
+ * @method self setPrice(int $param)
+ */
+final class ProductTransfer extends AbstractTransfer
 {
-    private ?int $id = null;
+    public ?int $id = null;
 
-    private ?string $name = null;
+    public ?string $name = null;
 
-    private ?int $price = null;
-
-    public static function fromProductEntity(Product $entity): self
-    {
-        $self = new self();
-        $self->id = $entity->getId();
-        $self->name = $entity->getName();
-        $self->price = $entity->getPrice();
-
-        return $self;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(?int $price): self
-    {
-        $this->price = $price;
-        return $this;
-    }
+    public ?int $price = null;
 }
