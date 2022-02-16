@@ -37,17 +37,4 @@ return static fn() => new class() extends AbstractConfigGacela {
                 ->get('doctrine.orm.entity_manager'),
         ];
     }
-
-    public function setRepositoryNamespace(): string
-    {
-        return 'Infrastructure\Persistence';
-    }
-
-    public function customServicePaths(): array
-    {
-        return [
-            'Application',
-            'Infrastructure\Persistence',
-        ];
-    }
 };

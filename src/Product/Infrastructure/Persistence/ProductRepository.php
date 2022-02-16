@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Persistence;
 
-use App\Product\Domain\ProductTransfer;
 use App\Product\Domain\ProductRepositoryInterface;
+use App\Product\Domain\ProductTransfer;
+use App\Product\Infrastructure\Persistence\Mapper\ProductMapper;
 use Doctrine\ORM\EntityManagerInterface;
-use Gacela\Framework\AbstractCustomService;
 
-/**
- * @method PersistenceFactory getFactory()
- */
-final class ProductRepository extends AbstractCustomService implements ProductRepositoryInterface
+final class ProductRepository implements ProductRepositoryInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -21,24 +18,31 @@ final class ProductRepository extends AbstractCustomService implements ProductRe
         $this->entityManager = $entityManager;
     }
 
-    public function save(ProductTransfer $product): void
+    public function save(ProductTransfer $productTransfer): void
     {
         $productEntity = (new Product())
-            ->setName($product->getName())
-            ->setPrice($product->getPrice());
+            ->setName($productTransfer->getName())
+            ->setPrice($productTransfer->getPrice());
 
         $this->entityManager->persist($productEntity);
         $this->entityManager->flush();
     }
 
+    /**
+     * @return list<ProductTransfer>
+     */
     public function findAll(): array
     {
         $productEntities = $this->entityManager
             ->getRepository(Product::class)
             ->findAll();
 
-        return $this->getFactory()
-            ->createProductMapper()
+        return $this->createProductMapper()
             ->mapEntitiesToDomain($productEntities);
+    }
+
+    private function createProductMapper(): ProductMapper
+    {
+        return new ProductMapper();
     }
 }

@@ -6,19 +6,20 @@ namespace App\Shared\Transfer;
 
 abstract class AbstractTransfer
 {
-    /**
-     * @return static
-     */
-    public static function fromArray(array $array)
+    public function fromArray(array $array): self
     {
-        $self = new static();
         foreach ($array as $key => $value) {
-            if (property_exists($self, $key)) {
-                $self->{$key} = $value;
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
             }
         }
 
-        return $self;
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return get_object_vars($this);
     }
 
     public function __call($name, $arguments)
@@ -39,12 +40,5 @@ abstract class AbstractTransfer
         }
 
         return null;
-    }
-
-    public function toArray(): array
-    {
-        $self = new static();
-
-        return get_object_vars($self);
     }
 }

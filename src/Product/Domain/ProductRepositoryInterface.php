@@ -6,10 +6,10 @@ namespace App\Product\Domain;
 
 interface ProductRepositoryInterface
 {
-    public function save(ProductTransfer $product): void;
+    public function save(ProductTransfer $productTransfer): void;
 
     /**
-     * @return list<int,ProductTransfer>
+     * @return list<ProductTransfer>
      */
     public function findAll(): array;
 }

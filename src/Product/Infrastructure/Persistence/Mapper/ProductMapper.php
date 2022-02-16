@@ -9,12 +9,16 @@ use App\Product\Infrastructure\Persistence\Product as ProductEntity;
 
 final class ProductMapper
 {
+    /**
+     * @param list<ProductEntity> $productEntities
+     *
+     * @return list<ProductTransfer>
+     */
     public function mapEntitiesToDomain(array $productEntities): array
     {
         return array_map(
-            static fn(ProductEntity $p) => ProductTransfer::fromArray($p->toArray()),
+            static fn(ProductEntity $p) => (new ProductTransfer())->fromArray($p->toArray()),
             $productEntities
         );
     }
-
 }

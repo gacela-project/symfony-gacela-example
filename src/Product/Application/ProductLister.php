@@ -17,7 +17,7 @@ final class ProductLister
     }
 
     /**
-     * @return list<int,ProductTransfer>
+     * @return list<ProductTransfer>
      */
     public function findAll(): array
     {
