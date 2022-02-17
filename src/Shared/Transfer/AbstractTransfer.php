@@ -4,9 +4,24 @@ declare(strict_types=1);
 
 namespace App\Shared\Transfer;
 
+use RuntimeException;
+
+use function get_object_vars;
+use function lcfirst;
+use function preg_replace;
+use function property_exists;
+use function reset;
+
 abstract class AbstractTransfer
 {
-    public function fromArray(array $array): self
+    /**
+     * @param array<string,mixed> $array
+     *
+     * @return static
+     *
+     * @psalm-suppress MixedAssignment
+     */
+    public function fromArray(array $array)
     {
         foreach ($array as $key => $value) {
             if (property_exists($this, $key)) {
@@ -17,12 +32,18 @@ abstract class AbstractTransfer
         return $this;
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array
     {
         return get_object_vars($this);
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @return mixed|static
+     */
+    public function __call(string $name, array $arguments = [])
     {
         // fluent getters
         $withoutPrefix = (string)preg_replace('/^get/', '', $name);
@@ -39,6 +60,29 @@ abstract class AbstractTransfer
             return $this;
         }
 
-        return null;
+        throw new RuntimeException("Unknown property with name: $normalizedName");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function __get(string $name)
+    {
+        return $this->__call($name);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed|static
+     */
+    public function __set(string $name, $value)
+    {
+        return $this->__call($name, [$value]);
+    }
+
+    public function __isset(string $name): bool
+    {
+        return $this->__call($name) !== null;
     }
 }
