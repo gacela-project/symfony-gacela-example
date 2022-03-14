@@ -14,10 +14,10 @@ final class ProductCreator
     private int $defaultPrice;
 
     public function __construct(
-        ProductRepositoryInterface $productEntityManager,
+        ProductRepositoryInterface $productRepository,
         int $defaultPrice
     ) {
-        $this->repository = $productEntityManager;
+        $this->repository = $productRepository;
         $this->defaultPrice = $defaultPrice;
     }
 

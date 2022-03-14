@@ -8,33 +8,27 @@ use App\Product\Infrastructure\Persistence\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\AbstractConfigGacela;
 use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
+use Gacela\Framework\Config\GacelaConfigBuilder\ConfigBuilder;
+use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
 
 return static fn() => new class() extends AbstractConfigGacela {
-    public function config(): array
+    public function config(ConfigBuilder $configBuilder): void
     {
-        return [
-            'path' => '.env*',
-            'path_local' => '.env',
-        ];
+        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
     }
 
-    public function configReaders(): array
-    {
-        return [
-            'env' => new EnvConfigReader(),
-        ];
-    }
+    public function mappingInterfaces(
+        MappingInterfacesBuilder $mappingInterfacesBuilder,
+        array $globalServices
+    ): void {
+        $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, ProductRepository::class);
 
-    public function mappingInterfaces(array $globalServices): array
-    {
         /** @var Kernel $kernel */
         $kernel = $globalServices['symfony/kernel'];
 
-        return [
-            ProductRepositoryInterface::class => ProductRepository::class,
-            EntityManagerInterface::class => static fn() => $kernel
-                ->getContainer()
-                ->get('doctrine.orm.entity_manager'),
-        ];
+        $mappingInterfacesBuilder->bind(
+            EntityManagerInterface::class,
+            static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+        );
     }
 };
