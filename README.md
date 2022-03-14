@@ -62,10 +62,16 @@ use App\Product\Domain\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\ProductRepository;
 
 Gacela::bootstrap($kernel->getProjectDir(), [
-    'mapping-interfaces' => [
-        ProductRepositoryInterface::class => ProductRepository::class,
-        // ...
-    ],
+    'mapping-interfaces' => function (
+        MappingInterfacesBuilder $mappingInterfacesBuilder,
+        array $globalServices
+    ): void {
+        $mappingInterfacesBuilder->bind(
+            ProductRepositoryInterface::class,
+            ProductRepository::class
+        );
+        //...
+    },
 ]);
 ```
 
@@ -92,24 +98,33 @@ then you want to resolve it using the "doctrine service" from the original
 kernel.
 
 ```php
-<?php
 
 use App\Product\Domain\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-return static fn () => new class() extends AbstractConfigGacela {
-    public function mappingInterfaces(array $globalServices): array
+return static fn() => new class() extends AbstractConfigGacela {
+    public function config(ConfigBuilder $configBuilder): void
     {
+        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
+    }
+
+    public function mappingInterfaces(
+        MappingInterfacesBuilder $mappingInterfacesBuilder,
+        array $globalServices
+    ): void {
+        $mappingInterfacesBuilder->bind(
+            ProductRepositoryInterface::class,
+            ProductRepository::class
+        );
+
         /** @var Kernel $kernel */
         $kernel = $globalServices['symfony/kernel'];
 
-        return [
-            ProductRepositoryInterface::class => ProductRepository::class,
-            EntityManagerInterface::class => static fn() => $kernel
-                ->getContainer()
-                ->get('doctrine.orm.entity_manager'),
-        ];
+        $mappingInterfacesBuilder->bind(
+            EntityManagerInterface::class,
+            fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+        );
     }
 };
 ```

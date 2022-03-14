@@ -1,6 +1,8 @@
 <?php
 
 use App\Kernel;
+use Gacela\Framework\Config\GacelaConfigBuilder\ConfigBuilder;
+use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
 use Gacela\Framework\Gacela;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
@@ -21,32 +23,37 @@ $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 # OPTION A: Using gacela.php #
 ##############################
 Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
-/*
-############################################################
-# OPTION B: Directly here. Without the need for gacela.php #
-############################################################
 
-use App\Product\Domain\ProductRepositoryInterface;
-use App\Product\Infrastructure\Persistence\ProductRepository;
-use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
-use Doctrine\ORM\EntityManagerInterface;
+#######################################################################
+# OPTION B: Using Gacela::bootrstrap. Without the need for gacela.php #
+#######################################################################
 
-Gacela::bootstrap($kernel->getProjectDir(), [
-    'config' => [
-        'path' => '.env*',
-        'path_local' => '.env',
-    ],
-    'mapping-interfaces' => [
-        ProductRepositoryInterface::class => ProductRepository::class,
-        EntityManagerInterface::class => static fn() => $kernel
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager'),
-    ],
-    'config-readers' => [
-        'env' => new EnvConfigReader(),
-    ],
-]);
-*/
+//use App\Product\Domain\ProductRepositoryInterface;
+//use App\Product\Infrastructure\Persistence\ProductRepository;
+//use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
+//use Doctrine\ORM\EntityManagerInterface;
+//
+//Gacela::bootstrap($kernel->getProjectDir(), [
+//    'symfony/kernel' => $kernel,
+//    'config' => function (ConfigBuilder $configBuilder): void {
+//        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
+//    },
+//    'mapping-interfaces' => function (
+//        MappingInterfacesBuilder $mappingInterfacesBuilder,
+//        array $globalServices
+//    ): void {
+//        $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, ProductRepository::class);
+//
+//        /** @var Kernel $kernel */
+//        $kernel = $globalServices['symfony/kernel'];
+//
+//        $mappingInterfacesBuilder->bind(
+//            EntityManagerInterface::class,
+//            static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+//        );
+//    },
+//]);
+
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
