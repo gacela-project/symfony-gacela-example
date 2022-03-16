@@ -30,8 +30,8 @@ Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 
 //use App\Product\Domain\ProductRepositoryInterface;
 //use App\Product\Infrastructure\Persistence\ProductRepository;
-//use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 //use Doctrine\ORM\EntityManagerInterface;
+//use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 //
 //Gacela::bootstrap($kernel->getProjectDir(), [
 //    'symfony/kernel' => $kernel,
