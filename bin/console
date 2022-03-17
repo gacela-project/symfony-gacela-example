@@ -51,29 +51,33 @@ Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 # OPTION B: Directly here. Without the need for gacela.php #
 ############################################################
 
-Gacela::bootstrap($kernel->getProjectDir(), [
-    'symfony/kernel' => $kernel,
-    'config' => function (ConfigBuilder $configBuilder): void {
-        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
-    },
-    'mapping-interfaces' => function (
-        MappingInterfacesBuilder $mappingInterfacesBuilder,
-        array $globalServices
-    ): void {
-        $mappingInterfacesBuilder->bind(
-            ProductRepositoryInterface::class,
-            ProductRepository::class
-        );
-
-        /** @var Kernel $kernel */
-        $kernel = $globalServices['symfony/kernel'];
-
-        $mappingInterfacesBuilder->bind(
-            EntityManagerInterface::class,
-            fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
-        );
-    },
-]);
+//use App\Product\Domain\ProductRepositoryInterface;
+//use App\Product\Infrastructure\Persistence\ProductRepository;
+//use Doctrine\ORM\EntityManagerInterface;
+//use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
+//use Gacela\Framework\Config\GacelaConfigBuilder\ConfigBuilder;
+//use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
+//
+//Gacela::bootstrap($kernel->getProjectDir(), [
+//    'symfony/kernel' => $kernel,
+//    'config' => function (ConfigBuilder $configBuilder): void {
+//        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
+//    },
+//    'mapping-interfaces' => function (
+//        MappingInterfacesBuilder $mappingInterfacesBuilder,
+//        array $globalServices
+//    ): void {
+//        $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, ProductRepository::class);
+//
+//        /** @var Kernel $kernel */
+//        $kernel = $globalServices['symfony/kernel'];
+//
+//        $mappingInterfacesBuilder->bind(
+//            EntityManagerInterface::class,
+//            static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+//        );
+//    },
+//]);
 
 $application = new Application($kernel);
 $application->run($input);
