@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Product\Application;
 
 use App\Product\Application\ProductCreator;
 use App\Product\Domain\ProductTransfer;
+use App\Tests\Shared\FakeProductRepository;
 use PHPUnit\Framework\TestCase;
 
 final class ProductCreatorTest extends TestCase

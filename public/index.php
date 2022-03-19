@@ -24,9 +24,9 @@ $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 ##############################
 Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 
-#######################################################################
-# OPTION B: Using Gacela::bootrstrap. Without the need for gacela.php #
-#######################################################################
+######################################################################
+# OPTION B: Using Gacela::bootstrap. Without the need for gacela.php #
+######################################################################
 
 //use App\Product\Domain\ProductRepositoryInterface;
 //use App\Product\Infrastructure\Persistence\ProductRepository;
