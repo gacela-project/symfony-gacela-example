@@ -9,6 +9,7 @@ use App\Product\Domain\ProductTransfer;
 
 final class FakeProductRepository implements ProductRepositoryInterface {
 
+    /** @var list<ProductTransfer> */
     private array $productsTransfer = [];
 
     public function save(ProductTransfer $productTransfer): void
@@ -16,6 +17,9 @@ final class FakeProductRepository implements ProductRepositoryInterface {
         $this->productsTransfer[] = $productTransfer;
     }
 
+    /**
+     * @return list<ProductTransfer>
+     */
     public function findAll(): array
     {
         return $this->productsTransfer;
