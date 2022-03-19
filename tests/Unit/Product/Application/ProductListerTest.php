@@ -23,8 +23,8 @@ final class ProductListerTest extends TestCase
         $fakeProductRepository = new FakeProductRepository();
         $productLister = new ProductLister($fakeProductRepository);
 
-        $product = new ProductTransfer();
-        $product->setName('Product One')
+        $product = (new ProductTransfer())
+            ->setName('Product One')
             ->setPrice(10);
 
         $fakeProductRepository->save($product);
@@ -37,12 +37,12 @@ final class ProductListerTest extends TestCase
         $fakeProductRepository = new FakeProductRepository();
         $productLister = new ProductLister($fakeProductRepository);
 
-        $product1 = new ProductTransfer();
-        $product1->setName('Product One')
+        $product1 = (new ProductTransfer())
+            ->setName('Product One')
             ->setPrice(10);
 
-        $product2 = new ProductTransfer();
-        $product2->setName('Product Two')
+        $product2 = (new ProductTransfer())
+            ->setName('Product Two')
             ->setPrice(20);
 
         $fakeProductRepository->save($product1);

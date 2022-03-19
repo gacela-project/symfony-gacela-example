@@ -18,8 +18,8 @@ final class ProductCreatorTest extends TestCase
         $productCreator = new ProductCreator($fakeProductRepository, self::DEFAULT_PRODUCT_PRICE);
         $productCreator->createProduct('Product One', 10);
 
-        $product = new ProductTransfer();
-        $product->setName('Product One')
+        $product = (new ProductTransfer())
+            ->setName('Product One')
             ->setPrice(10);
 
         self::assertEquals([$product], $fakeProductRepository->findAll());
@@ -31,8 +31,8 @@ final class ProductCreatorTest extends TestCase
         $productCreator = new ProductCreator($fakeProductRepository, self::DEFAULT_PRODUCT_PRICE);
         $productCreator->createProduct('Product Two', null);
 
-        $product = new ProductTransfer();
-        $product->setName('Product Two')
+        $product = (new ProductTransfer())
+            ->setName('Product Two')
             ->setPrice(self::DEFAULT_PRODUCT_PRICE);
 
         self::assertEquals([$product], $fakeProductRepository->findAll());
