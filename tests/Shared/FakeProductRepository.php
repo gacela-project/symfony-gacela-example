@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Product\Application;
+namespace App\Tests\Shared;
 
 use App\Product\Domain\ProductRepositoryInterface;
 use App\Product\Domain\ProductTransfer;
 
-final class FakeProductRepository implements ProductRepositoryInterface {
-
+final class FakeProductRepository implements ProductRepositoryInterface
+{
     /** @var list<ProductTransfer> */
     private array $productsTransfer = [];
 
