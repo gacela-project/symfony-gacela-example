@@ -6,29 +6,17 @@ use App\Kernel;
 use App\Product\Domain\ProductRepositoryInterface;
 use App\Product\Infrastructure\Persistence\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Gacela\Framework\AbstractConfigGacela;
+use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
-use Gacela\Framework\Config\GacelaConfigBuilder\ConfigBuilder;
-use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
 
-return static fn() => new class() extends AbstractConfigGacela {
-    public function config(ConfigBuilder $configBuilder): void
-    {
-        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
-    }
+return static function (GacelaConfig $config): void {
+    $config->addAppConfig('.env*', '.env.local', EnvConfigReader::class);
+    $config->addMappingInterface(ProductRepositoryInterface::class, ProductRepository::class);
 
-    public function mappingInterfaces(
-        MappingInterfacesBuilder $mappingInterfacesBuilder,
-        array $globalServices
-    ): void {
-        $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, ProductRepository::class);
-
-        /** @var Kernel $kernel */
-        $kernel = $globalServices['symfony/kernel'];
-
-        $mappingInterfacesBuilder->bind(
-            EntityManagerInterface::class,
-            static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
-        );
-    }
+    /** @var Kernel $kernel */
+    $kernel = $config->getExternalService('symfony/kernel');
+    $config->addMappingInterface(
+        EntityManagerInterface::class,
+        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+    );
 };

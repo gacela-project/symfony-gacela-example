@@ -1,8 +1,7 @@
 <?php
 
 use App\Kernel;
-use Gacela\Framework\Config\GacelaConfigBuilder\ConfigBuilder;
-use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
+use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Gacela;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
@@ -19,40 +18,11 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-##############################
-# OPTION A: Using gacela.php #
-##############################
-Gacela::bootstrap($kernel->getProjectDir(), ['symfony/kernel' => $kernel]);
 
-######################################################################
-# OPTION B: Using Gacela::bootstrap. Without the need for gacela.php #
-######################################################################
+$configFn = static fn(GacelaConfig $config) => $config
+    ->addExternalService('symfony/kernel', $kernel);
 
-//use App\Product\Domain\ProductRepositoryInterface;
-//use App\Product\Infrastructure\Persistence\ProductRepository;
-//use Doctrine\ORM\EntityManagerInterface;
-//use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
-//
-//Gacela::bootstrap($kernel->getProjectDir(), [
-//    'symfony/kernel' => $kernel,
-//    'config' => function (ConfigBuilder $configBuilder): void {
-//        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
-//    },
-//    'mapping-interfaces' => function (
-//        MappingInterfacesBuilder $mappingInterfacesBuilder,
-//        array $globalServices
-//    ): void {
-//        $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, ProductRepository::class);
-//
-//        /** @var Kernel $kernel */
-//        $kernel = $globalServices['symfony/kernel'];
-//
-//        $mappingInterfacesBuilder->bind(
-//            EntityManagerInterface::class,
-//            static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
-//        );
-//    },
-//]);
+Gacela::bootstrap($kernel->getProjectDir(), $configFn);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
