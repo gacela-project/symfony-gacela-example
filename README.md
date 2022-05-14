@@ -42,96 +42,59 @@ bin/console debug:router
 
 ## Injecting the Doctrine ProductRepository to a Gacela Factory
 
-The Gacela Factory has an autowiring logic that will automagically resolve its dependencies. The only exception is for
-interfaces, when there is no way to discover what want to inject there. For this purpose, you simply need to define the
-mapping between the interfaces and to what do you want them to be resolved. You can do this in two ways
+The Gacela Factory has an autowiring logic that will automatically resolve its dependencies. The only exception is for
+interfaces, when there is no way to discover what want to inject there. For this purpose, you need to define the
+mapping between the interfaces and to what do you want them to be resolved. 
 
-- OPTION A: In the `Gacela::bootstrap()` you just pass the globalServices that will be used in the `gacela.php` file.
+For example, **how can you use the original symfony kernel in Gacela?** There are two options:
 
-```php
-Gacela::bootstrap(
-    appRootDir: $kernel->getProjectDir(), 
-    globalServices: ['symfony/kernel' => $kernel]
-);
-```
-
-- OPTION B: Directly in the bootstrap, as globalServices. This way you don't need a `gacela.php` file.
+- OPTION 1: Pass the symfony kernel as external service from the `Gacela::bootstrap()`. So it can be used in the `gacela.php` file.
 
 ```php
-use App\Product\Domain\ProductRepositoryInterface;
-use App\Product\Infrastructure\Persistence\ProductRepository;
+# index.php
+$configFn = fn(GacelaConfig $config) => $config
+    ->addExternalService('symfony/kernel', $kernel);
 
-Gacela::bootstrap($kernel->getProjectDir(), [
-    'mapping-interfaces' => function (
-        MappingInterfacesBuilder $mappingInterfacesBuilder,
-        array $globalServices
-    ): void {
-        $mappingInterfacesBuilder->bind(
-            ProductRepositoryInterface::class,
-            ProductRepository::class
-        );
-        //...
-    },
-]);
-```
+Gacela::bootstrap($kernel->getProjectDir(), $configFn);
 
-### How can you use the original symfony kernel in Gacela? 
+# --------------------------------------------------------
 
-> Following the previous example using the gacela.php file (OPTION A).
+# gacela.php
+return function (GacelaConfig $config) {
+    /** @var Kernel $kernel */
+    $kernel = $config->getExternalService('symfony/kernel');
 
-To use the original kernel you pass it as a globalService in Gacela in the entry point of the application. 
-It might be in the `public/index.php` or `bin/console`.
-
-```php
-# bin/console
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-Gacela::bootstrap(
-    appRootDir: __DIR__,
-    globalServices: ['symfony/kernel' => $kernel]
-);
-```
-
-Afterwards, you can access to it in your `gacela.php` file in the `mappingInterfaces()` method, such
-as: `$globalServices['symfony/kernel']`. This way you are telling Gacela what concretion do you want when it encounters
-an abstraction (like an abstract class or an interface). For example when the `EntityManagerInterface::class` is found,
-then you want to resolve it using the "doctrine service" from the original
-kernel.
-
-```php
-
-use App\Product\Domain\ProductRepositoryInterface;
-use App\Product\Infrastructure\Persistence\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
-
-return static fn() => new class() extends AbstractConfigGacela {
-    public function config(ConfigBuilder $configBuilder): void
-    {
-        $configBuilder->add('.env*', '.env.local', EnvConfigReader::class);
-    }
-
-    public function mappingInterfaces(
-        MappingInterfacesBuilder $mappingInterfacesBuilder,
-        array $globalServices
-    ): void {
-        $mappingInterfacesBuilder->bind(
-            ProductRepositoryInterface::class,
-            ProductRepository::class
-        );
-
-        /** @var Kernel $kernel */
-        $kernel = $globalServices['symfony/kernel'];
-
-        $mappingInterfacesBuilder->bind(
-            EntityManagerInterface::class,
-            fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
-        );
-    }
+    $config->addMappingInterface(
+        EntityManagerInterface::class,
+        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+    );
 };
+
 ```
+
+- OPTION 2: Directly in the bootstrap. This way you don't need a `gacela.php` file.
+
+```php
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+
+$configFn = function (GacelaConfig $config) use ($kernel) {
+    $config->addMappingInterface(
+        EntityManagerInterface::class,
+        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+    );
+};
+
+Gacela::bootstrap($kernel->getProjectDir(), $configFn);
+```
+
+### Why?
 
 In our current example (using symfony) we want to use the `doctrine` service from the
 `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
-original one would have. So you want to use the original one.
+original one would have.
+
+> Extra: using the `fn() => ...` as value when doing `addMappingInterface()` is to delay the execution of `getContainer()`
+till later when is really needed as a "lazy loading".
 
 ---
 
