@@ -5,25 +5,24 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Controller;
 
 use App\Product\ProductFacade;
+use Gacela\Framework\DocBlockResolverAwareTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @method ProductFacade getFacade()
+ */
 final class AddProductController extends AbstractController
 {
-    private ProductFacade $facade;
-
-    public function __construct(ProductFacade $facade)
-    {
-        $this->facade = $facade;
-    }
+    use DocBlockResolverAwareTrait;
 
     public function __invoke(Request $request): Response
     {
         $name = $request->get('name');
         $price = $request->get('price');
 
-        $this->facade->createNewProduct($name, $this->validatePriceInput($price));
+        $this->getFacade()->createNewProduct($name, $this->validatePriceInput($price));
 
         $this->addFlash('success', "The product {$name} has been created.");
 
