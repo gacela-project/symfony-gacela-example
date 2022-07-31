@@ -22,14 +22,14 @@ final class AddProductController extends AbstractController
         $name = $request->get('name');
         $price = $request->get('price');
 
-        $this->getFacade()->createNewProduct($name, $this->validatePriceInput($price));
+        $this->getFacade()->createNewProduct($name, $this->castPrice($price));
 
         $this->addFlash('success', "The product {$name} has been created.");
 
         return $this->redirectToRoute('product_list');
     }
 
-    private function validatePriceInput(?string $price): ?int
+    private function castPrice(?string $price): ?int
     {
         if ($price === null) {
             return null;

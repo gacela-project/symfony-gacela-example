@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Product\Application;
 
-use App\Product\Domain\ProductTransfer;
 use App\Product\Domain\ProductRepositoryInterface;
+use App\Product\Domain\ProductTransfer;
 
 final class ProductLister
 {
