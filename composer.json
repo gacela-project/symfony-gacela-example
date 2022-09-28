@@ -11,7 +11,7 @@
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
-        "gacela-project/gacela": "^0.24",
+        "gacela-project/gacela": "^0.25",
         "gacela-project/gacela-env-config-reader": "*",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
