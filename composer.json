@@ -4,14 +4,15 @@
     "description": "Symfony using Gacela Framework",
     "keywords": ["framework", "gacela", "symfony"],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "^1.11",
+        "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.5",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
-        "gacela-project/gacela": "^0.26",
+        "gacela-project/gacela": "^1.3",
         "gacela-project/gacela-env-config-reader": "*",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
@@ -58,7 +59,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "optimize-autoloader": true,
         "preferred-install": {

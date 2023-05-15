@@ -64,7 +64,7 @@ return function (GacelaConfig $config) {
     /** @var Kernel $kernel */
     $kernel = $config->getExternalService('symfony/kernel');
 
-    $config->addMappingInterface(
+    $config->addBinding(
         EntityManagerInterface::class,
         fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
     );
@@ -78,7 +78,7 @@ return function (GacelaConfig $config) {
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 
 $configFn = function (GacelaConfig $config) use ($kernel) {
-    $config->addMappingInterface(
+    $config->addBinding(
         EntityManagerInterface::class,
         fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
     );
@@ -93,7 +93,7 @@ In our current example (using symfony) we want to use the `doctrine` service fro
 `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
 original one would have.
 
-> Extra: using the `fn() => ...` as value when doing `addMappingInterface()` is to delay the execution of `getContainer()`
+> Extra: using the `fn() => ...` as value when doing `addBinding()` is to delay the execution of `getContainer()`
 till later when is really needed as a "lazy loading".
 
 ---

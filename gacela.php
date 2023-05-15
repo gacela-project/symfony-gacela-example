@@ -11,11 +11,11 @@ use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 
 return static function (GacelaConfig $config): void {
     $config->addAppConfig('.env*', '.env.local', EnvConfigReader::class);
-    $config->addMappingInterface(ProductRepositoryInterface::class, ProductRepository::class);
+    $config->addBinding(ProductRepositoryInterface::class, ProductRepository::class);
 
     /** @var Kernel $kernel */
     $kernel = $config->getExternalService('symfony/kernel');
-    $config->addMappingInterface(
+    $config->addBinding(
         EntityManagerInterface::class,
         fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
     );

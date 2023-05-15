@@ -8,7 +8,7 @@ use App\Product\Domain\ProductRepositoryInterface;
 use App\Product\Domain\ProductTransfer;
 use App\Product\ProductFacade;
 use App\Tests\Shared\FakeProductRepository;
-use Gacela\Framework\Config\GacelaConfigBuilder\MappingInterfacesBuilder;
+use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Gacela;
 use PHPUnit\Framework\TestCase;
 
@@ -18,11 +18,10 @@ final class ProductFacadeTest extends TestCase
 
     public function setUp(): void
     {
-        Gacela::bootstrap(__DIR__, [
-            'mapping-interfaces' => static function (MappingInterfacesBuilder $mappingInterfacesBuilder): void {
-                $mappingInterfacesBuilder->bind(ProductRepositoryInterface::class, FakeProductRepository::class);
-            },
-        ]);
+        Gacela::bootstrap(__DIR__, static function (GacelaConfig $config) {
+            $config->addAppConfig('config/*.php');
+            $config->addBinding(ProductRepositoryInterface::class, FakeProductRepository::class);
+        });
     }
 
     public function test_create_product(): void
