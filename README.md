@@ -12,7 +12,7 @@ There are two commands and two controllers inside the Product module:
 
 This repository example uses sqlite, so you can easily check out and try it yourself :)
 
-> Don't forget to run `bin/console doctrine:migrations:migrate`
+**IMPORTANT**: Do not forget to run `bin/console doctrine:migrations:migrate`
 
 ### Commands
 
