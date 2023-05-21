@@ -6,7 +6,6 @@ namespace App\Product\Infrastructure\Console;
 
 use App\Product\ProductFacade;
 use Gacela\Framework\DocBlockResolverAwareTrait;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,11 +20,10 @@ final class AddProductCommand extends Command
 
     protected static $defaultName = 'gacela:product:add';
 
-    protected static $defaultDescription = 'Add new product';
-
     protected function configure(): void
     {
-        $this->addArgument('name', InputArgument::REQUIRED)
+        $this->setDescription('Add new product')
+            ->addArgument('name', InputArgument::REQUIRED)
             ->addArgument('price', InputArgument::OPTIONAL, '1');
     }
 
@@ -34,25 +32,23 @@ final class AddProductCommand extends Command
         $name = $input->getArgument('name');
         $price = $input->getArgument('price');
 
-        $this->getFacade()->createNewProduct($name, $this->castPrice($price));
+        $this->getFacade()->createNewProduct($name, $this->validatePriceInput($price));
 
         $output->writeln($name . ' product created successfully');
 
         return Command::SUCCESS;
     }
 
-    private function castPrice(?string $price): ?int
+    private function validatePriceInput(?string $price): ?int
     {
         if ($price === null) {
             return null;
         }
 
-        if (filter_var($price, FILTER_VALIDATE_INT) === 0
-            || !filter_var($price, FILTER_VALIDATE_INT) === false
-        ) {
+        if (filter_var($price, FILTER_VALIDATE_INT) === 0 || !filter_var($price, FILTER_VALIDATE_INT) === false) {
             return (int)$price;
         }
 
-        throw new RuntimeException('Second parameter [price] must be of type integer');
+        throw new \RuntimeException('Second parameter [price] must be of type integer');
     }
 }
