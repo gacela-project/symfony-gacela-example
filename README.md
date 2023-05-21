@@ -2,7 +2,7 @@
 
 This is an example of how to use Symfony with Gacela modules.
 
-The trick is to allow the autowiring mechanism from Symfony so the Facade injects its Factory and the Factory injects
+The trick is to allow the auto-wiring mechanism from Symfony so the Facade injects its Factory and the Factory injects
 whatever you want. This is a useful way to get the Symfony Repositories in your Factory, so you can inject them in your
 application services.
 
@@ -42,60 +42,46 @@ bin/console debug:router
 
 ## Injecting the Doctrine ProductRepository to a Gacela Factory
 
-The Gacela Factory has an autowiring logic that will automatically resolve its dependencies. The only exception is for
-interfaces, when there is no way to discover what want to inject there. For this purpose, you need to define the
-mapping between the interfaces and to what do you want them to be resolved. 
+The Gacela Factory has an auto-wiring logic that will automagically resolve its dependencies. The only exception is for
+interfaces, when there is no way to discover what want to inject there. For this purpose, you simply need to define the
+mapping between the interfaces and to what do you want them to be resolved. You can do this in two ways
 
-For example, **how can you use the original symfony kernel in Gacela?** There are two options:
-
-- OPTION 1: Pass the symfony kernel as external service from the `Gacela::bootstrap()`. So it can be used in the `gacela.php` file.
+In the `Gacela::bootstrap()` pass the symfony kernel as "external service" that will be used in the `gacela.php` file.
 
 ```php
-# index.php
-$configFn = fn(GacelaConfig $config) => $config
-    ->addExternalService('symfony/kernel', $kernel);
+<?php # index.php
 
-Gacela::bootstrap($kernel->getProjectDir(), $configFn);
+Gacela::bootstrap(
+    $kernel->getProjectDir(),
+    static function (GacelaConfig $config) use ($kernel) {
+        $config->addExternalService('symfony/kernel', $kernel);
+    }
+);
+```
 
-# --------------------------------------------------------
+### How can you use the original symfony kernel in Gacela?
 
-# gacela.php
-return function (GacelaConfig $config) {
+You can retrieve an external service using the `getExternalService()`, and then you can use it in your `gacela.php`.
+
+```php
+<?php # gacela.php
+
+return static function (GacelaConfig $config): void {
+    // ...
     /** @var Kernel $kernel */
     $kernel = $config->getExternalService('symfony/kernel');
 
     $config->addBinding(
         EntityManagerInterface::class,
-        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+        static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
     );
 };
-
 ```
-
-- OPTION 2: Directly in the bootstrap. This way you don't need a `gacela.php` file.
-
-```php
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-
-$configFn = function (GacelaConfig $config) use ($kernel) {
-    $config->addBinding(
-        EntityManagerInterface::class,
-        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
-    );
-};
-
-Gacela::bootstrap($kernel->getProjectDir(), $configFn);
-```
-
-### Why?
 
 In our current example (using symfony) we want to use the `doctrine` service from the
 `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
-original one would have.
-
-> Extra: using the `fn() => ...` as value when doing `addBinding()` is to delay the execution of `getContainer()`
-till later when is really needed as a "lazy loading".
+original one would have. So you want to use the original one.
 
 ---
 
-Read the full docs in http://gacela-project.com/
+Read the full docs in [http://gacela-project.com/](https://gacela-project.com/docs/bootstrap/#using-externalservices).
