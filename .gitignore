@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 .idea
+=======
+.idea/
+>>>>>>> 8e13c4a (Upgrade gacela:1.4)
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -9,6 +13,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

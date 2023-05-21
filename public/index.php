@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Kernel;
 use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Gacela;
@@ -19,10 +21,12 @@ if ($_SERVER['APP_DEBUG']) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 
-$configFn = static fn(GacelaConfig $config) => $config
-    ->addExternalService('symfony/kernel', $kernel);
-
-Gacela::bootstrap($kernel->getProjectDir(), $configFn);
+Gacela::bootstrap(
+    $kernel->getProjectDir(),
+    static function (GacelaConfig $config) use ($kernel) {
+        $config->addExternalService('symfony/kernel', $kernel);
+    }
+);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

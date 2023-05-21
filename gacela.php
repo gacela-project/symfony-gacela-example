@@ -10,13 +10,15 @@ use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 
 return static function (GacelaConfig $config): void {
-    $config->addAppConfig('.env*', '.env.local', EnvConfigReader::class);
+    $config->addAppConfig('.env*', '.env', EnvConfigReader::class);
+
     $config->addBinding(ProductRepositoryInterface::class, ProductRepository::class);
 
     /** @var Kernel $kernel */
     $kernel = $config->getExternalService('symfony/kernel');
+
     $config->addBinding(
         EntityManagerInterface::class,
-        fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
+        static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
     );
 };
