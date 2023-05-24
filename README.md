@@ -42,9 +42,7 @@ bin/console debug:router
 
 ## Injecting the Doctrine ProductRepository to a Gacela Factory
 
-The Gacela Factory has an auto-wiring logic that will automagically resolve its dependencies. The only exception is for
-interfaces, when there is no way to discover what want to inject there. For this purpose, you simply need to define the
-mapping between the interfaces and to what do you want them to be resolved. You can do this in two ways
+The Gacela Factory has an auto-wiring logic that will automagically resolve its dependencies. The only exception is for interfaces, when there is no way to discover what want to inject there. For this purpose, you simply need to define the mapping between the interfaces and to what do you want them to be resolved. You can do this in two ways
 
 In the `Gacela::bootstrap()` pass the symfony kernel as "external service" that will be used in the `gacela.php` file.
 
@@ -78,9 +76,7 @@ return static function (GacelaConfig $config): void {
 };
 ```
 
-In our current example (using symfony) we want to use the `doctrine` service from the
-`kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the
-original one would have. So you want to use the original one.
+In our current example we want to use the `doctrine` service from the `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the original one would have. So you want to use the original one.
 
 ---
 

@@ -14,17 +14,10 @@ use Gacela\Framework\AbstractFactory;
  */
 final class ProductFactory extends AbstractFactory
 {
-    private ProductRepositoryInterface $productRepository;
-
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
     public function createProductCreator(): ProductCreator
     {
         return new ProductCreator(
-            $this->productRepository,
+            $this->getProductRepository(),
             $this->getConfig()->getDefaultProductPrice()
         );
     }
@@ -32,7 +25,12 @@ final class ProductFactory extends AbstractFactory
     public function createProductLister(): ProductLister
     {
         return new ProductLister(
-            $this->productRepository
+            $this->getProductRepository(),
         );
+    }
+
+    private function getProductRepository(): ProductRepositoryInterface
+    {
+        return $this->getProvidedDependency(ProductDependencyProvider::PRODUCT_REPOSITORY);
     }
 }
