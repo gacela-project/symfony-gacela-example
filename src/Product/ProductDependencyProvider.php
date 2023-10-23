@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Product;
 
-use App\Product\Domain\ProductRepositoryInterface;
+use App\Product\Infrastructure\Persistence\ProductRepository;
 use Gacela\Framework\AbstractDependencyProvider;
 use Gacela\Framework\Container\Container;
 
@@ -16,7 +16,7 @@ final class ProductDependencyProvider extends AbstractDependencyProvider
     {
         $container->set(
             self::PRODUCT_REPOSITORY,
-            fn() => $container->getLocator()->get(ProductRepositoryInterface::class)
+            fn() => $container->getLocator()->get(ProductRepository::class)
         );
     }
 }

@@ -12,8 +12,6 @@ use Gacela\Framework\Config\ConfigReader\EnvConfigReader;
 return static function (GacelaConfig $config): void {
     $config->addAppConfig('.env*', '.env', EnvConfigReader::class);
 
-    $config->addBinding(ProductRepositoryInterface::class, ProductRepository::class);
-
     /** @var Kernel $kernel */
     $kernel = $config->getExternalService('symfony/kernel');
 
