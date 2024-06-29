@@ -42,6 +42,12 @@ bin/console debug:router
 
 ## Using the Doctrine EntityManager
 
+A new `EntityManager` wouldn't have all services already defined by Symfony Kernel. For that reason, you want to create a binding from `EntityManagerInterface` to the `$kernel->getContainer()->get('doctrine.orm.entity_manager')`
+
+> Gacela **Bindings** docs: https://gacela-project.com/docs/bootstrap/#bindings
+
+### How?
+
 Create a binding between the `EntityManagerInterface` and the actual doctrine entity manager from Symfony using the symfony kernel. 
 
 ```php
@@ -52,14 +58,12 @@ Create a binding between the `EntityManagerInterface` and the actual doctrine en
 // This is the actually Symfony Kernel 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 
+// You can define this in the same file `index.php` or in a separate file `gacela.php`
+// Read more: https://gacela-project.com/docs/bootstrap/#the-gacela-php-file
 Gacela::bootstrap(
     $kernel->getProjectDir(),
     static function (GacelaConfig $config) use ($kernel) {
-        $config->addBinding(
-            ProductRepositoryInterface::class, 
-            ProductRepository::class
-        );
-
+        // ...
         $config->addBinding(
             EntityManagerInterface::class,
             static fn() => $kernel->getContainer()->get('doctrine.orm.entity_manager')
@@ -68,7 +72,7 @@ Gacela::bootstrap(
 );
 ```
 
-And then when the `EntityManagerInterface` is encountered then the callable from that binding will be resolved.
+And then when the `EntityManagerInterface` is found, then the callable from that binding will be resolved.
 ```php
 <?php # ProductRepository.php
 
@@ -83,6 +87,7 @@ final class ProductRepository implements ProductRepositoryInterface
     
     // ...
 ```
+
 For example, in the `DependencyProvider`:
 ```php
 final class ProductDependencyProvider extends AbstractDependencyProvider
@@ -98,5 +103,3 @@ final class ProductDependencyProvider extends AbstractDependencyProvider
     }
     // ...
 ```
-
-In our current example we want to use the `doctrine` service from the `kernel.container` and not just "a new one". A new one wouldn't have all services and stuff already define as the original one would have. So you want to use the original one.
