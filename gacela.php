@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use App\Kernel;
-use App\Product\Domain\ProductRepositoryInterface;
-use App\Product\Infrastructure\Persistence\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Gacela\Framework\Bootstrap\GacelaConfig;
 use Gacela\Framework\Config\ConfigReader\EnvConfigReader;

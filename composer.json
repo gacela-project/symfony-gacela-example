@@ -4,28 +4,28 @@
     "description": "Symfony using Gacela Framework",
     "keywords": ["framework", "gacela", "symfony"],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "^1.11",
         "doctrine/annotations": "^2.0",
-        "doctrine/doctrine-bundle": "^2.10",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.15",
-        "gacela-project/gacela": "^1.6",
-        "gacela-project/gacela-env-config-reader": "^0.2",
+        "doctrine/doctrine-bundle": "^2.12",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "^2.19",
+        "gacela-project/gacela": "^1.7",
+        "gacela-project/gacela-env-config-reader": "^0.3",
         "symfony/console": "5.4.*",
-        "symfony/dotenv": "5.4.*",
-        "symfony/flex": "^1.20",
+        "symfony/dotenv": "6.4",
+        "symfony/flex": "^1.21",
         "symfony/framework-bundle": "5.4.*",
         "symfony/proxy-manager-bridge": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/yaml": "5.4.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6",
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
-        "symfony/maker-bundle": "^1.49",
+        "symfony/maker-bundle": "^1.36",
         "symfony/phpunit-bridge": "^5.4"
     },
     "autoload": {
@@ -62,7 +62,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.0.2"
+            "php": "8.1"
         },
         "optimize-autoloader": true,
         "preferred-install": {
