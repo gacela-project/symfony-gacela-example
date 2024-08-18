@@ -31,6 +31,6 @@ final class ProductFactory extends AbstractFactory
 
     private function getProductRepository(): ProductRepositoryInterface
     {
-        return $this->getProvidedDependency(ProductDependencyProvider::PRODUCT_REPOSITORY);
+        return $this->getProvidedDependency(ProductProvider::PRODUCT_REPOSITORY);
     }
 }

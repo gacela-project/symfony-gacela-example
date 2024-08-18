@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Product;
 
 use App\Product\Domain\ProductRepositoryInterface;
-use Gacela\Framework\AbstractDependencyProvider;
+use Gacela\Framework\AbstractProvider;
 use Gacela\Framework\Container\Container;
 
-final class ProductDependencyProvider extends AbstractDependencyProvider
+final class ProductProvider extends AbstractProvider
 {
     public const PRODUCT_REPOSITORY = 'PRODUCT_REPOSITORY';
 

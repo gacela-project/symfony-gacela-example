@@ -12,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
-        "gacela-project/gacela": "^1.7",
+        "gacela-project/gacela": "^1.8",
         "gacela-project/gacela-env-config-reader": "^0.3",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "6.4",
