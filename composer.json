@@ -3,30 +3,31 @@
     "type": "project",
     "description": "Symfony using Gacela Framework",
     "keywords": ["framework", "gacela", "symfony"],
+    "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "composer/package-versions-deprecated": "^1.11",
-        "doctrine/annotations": "^2.0",
-        "doctrine/doctrine-bundle": "^2.12",
-        "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^2.19",
-        "gacela-project/gacela": "^1.8",
+        "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "doctrine/orm": "^3.3",
+        "gacela-project/gacela": "^1.18",
         "gacela-project/gacela-env-config-reader": "^0.3",
-        "symfony/console": "5.4.*",
-        "symfony/dotenv": "6.4",
-        "symfony/flex": "^1.21",
-        "symfony/framework-bundle": "5.4.*",
-        "symfony/proxy-manager-bridge": "5.4.*",
-        "symfony/twig-bundle": "5.4.*",
-        "symfony/yaml": "5.4.*"
+        "symfony/console": "7.4.*",
+        "symfony/dotenv": "^6.4",
+        "symfony/flex": "^2.4",
+        "symfony/framework-bundle": "7.4.*",
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/yaml": "7.4.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
+        "gacela-project/phpstan-extension": "^0.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "phpunit/phpunit": "^11.5",
         "roave/security-advisories": "dev-latest",
-        "symfony/maker-bundle": "^1.36",
-        "symfony/phpunit-bridge": "^5.4"
+        "symfony/maker-bundle": "^1.60",
+        "symfony/phpunit-bridge": "^7.4"
     },
     "autoload": {
         "psr-4": {
@@ -51,18 +52,21 @@
         ],
         "test": [
             "vendor/bin/phpunit"
+        ],
+        "phpstan": [
+            "vendor/bin/phpstan analyse --memory-limit=1G"
         ]
     },
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*",
+            "require": "7.4.*",
             "docker": false
         }
     },
     "config": {
         "platform": {
-            "php": "8.1"
+            "php": "8.2"
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -70,7 +74,6 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "symfony/flex": true
         }
     },

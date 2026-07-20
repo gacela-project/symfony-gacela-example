@@ -7,12 +7,18 @@ doctrine:
         #server_version: '13'
     orm:
         auto_generate_proxy_classes: true
+        # We don't rely on Doctrine's controller entity auto-mapping (controllers
+        # receive the Request); opting out silences its deprecation on Symfony 7.
+        controller_resolver:
+            auto_mapping: false
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        # `enable_native_lazy_objects` is set in doctrine.php: it must depend on the
+        # PHP version (native lazy objects require PHP 8.4, but this repo targets 8.2+).
         mappings:
             App\Product:
                 is_bundle: false
-                type: annotation
+                type: attribute
                 dir: '%kernel.project_dir%/src/Product/Infrastructure/Persistence'
                 prefix: 'App\Product\Infrastructure\Persistence'
                 alias: App

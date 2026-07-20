@@ -1,0 +1,17 @@
+includes:
+    - vendor/gacela-project/phpstan-extension/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
+
+parameters:
+    # Level 8 (not max): Gacela's container (getProvidedDependency()) and config
+    # (AbstractConfig::get()) return `mixed` by design, and Symfony's stock
+    # MicroKernelTrait uses a dynamic `require`. Enforcing the level 9+ `mixed`
+    # strictness on top of those would only add defensive noise to the example.
+    level: 8
+    paths:
+        - src
+    gacela:
+        modulesNamespace: App
+        excludedNamespaces:
+            - App\Shared

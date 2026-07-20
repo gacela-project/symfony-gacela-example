@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Controller;
 
 use App\Product\ProductFacade;
-use Gacela\Framework\DocBlockResolverAwareTrait;
+use Gacela\Framework\ServiceResolverAwareTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class AddProductController extends AbstractController
 {
-    use DocBlockResolverAwareTrait;
+    use ServiceResolverAwareTrait;
 
     public function __invoke(Request $request): Response
     {
-        $name = $request->get('name');
-        $price = $request->get('price');
+        $name = (string) $request->get('name');
+        $priceInput = $request->get('price');
+        $price = is_string($priceInput) ? $priceInput : null;
 
         $this->getFacade()->createNewProduct($name, $this->castPrice($price));
 

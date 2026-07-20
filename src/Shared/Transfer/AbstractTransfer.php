@@ -41,6 +41,8 @@ abstract class AbstractTransfer
     }
 
     /**
+     * @param list<mixed> $arguments
+     *
      * @return mixed|static
      */
     public function __call(string $name, array $arguments = [])
@@ -73,12 +75,10 @@ abstract class AbstractTransfer
 
     /**
      * @param mixed $value
-     *
-     * @return mixed|static
      */
-    public function __set(string $name, $value)
+    public function __set(string $name, $value): void
     {
-        return $this->__call($name, [$value]);
+        $this->__call($name, [$value]);
     }
 
     public function __isset(string $name): bool

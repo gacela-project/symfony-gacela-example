@@ -21,8 +21,8 @@ final class ProductRepository implements ProductRepositoryInterface
     public function save(ProductTransfer $productTransfer): void
     {
         $productEntity = (new Product())
-            ->setName($productTransfer->getName())
-            ->setPrice($productTransfer->getPrice());
+            ->setName((string) $productTransfer->getName())
+            ->setPrice((int) $productTransfer->getPrice());
 
         $this->entityManager->persist($productEntity);
         $this->entityManager->flush();

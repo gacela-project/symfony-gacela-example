@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Product\Infrastructure\Console;
 
 use App\Product\ProductFacade;
-use Gacela\Framework\DocBlockResolverAwareTrait;
+use Gacela\Framework\ServiceResolverAwareTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,23 +15,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method ProductFacade getFacade()
  */
+#[AsCommand(name: 'gacela:product:add', description: 'Add new product')]
 final class AddProductCommand extends Command
 {
-    use DocBlockResolverAwareTrait;
-
-    protected static $defaultName = 'gacela:product:add';
+    use ServiceResolverAwareTrait;
 
     protected function configure(): void
     {
-        $this->setDescription('Add new product')
-            ->addArgument('name', InputArgument::REQUIRED)
+        $this->addArgument('name', InputArgument::REQUIRED)
             ->addArgument('price', InputArgument::OPTIONAL, '1');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = $input->getArgument('name');
-        $price = $input->getArgument('price');
+        $name = (string) $input->getArgument('name');
+        $priceArgument = $input->getArgument('price');
+        $price = is_string($priceArgument) ? $priceArgument : null;
 
         $this->getFacade()->createNewProduct($name, $this->validatePriceInput($price));
 
