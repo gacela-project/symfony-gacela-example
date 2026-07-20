@@ -26,8 +26,8 @@ return static function (GacelaConfig $config): void {
         }
     );
 
-    // Bind the repository abstraction to its Doctrine implementation. Gacela
-    // resolves ProductRepository and injects the EntityManagerInterface bound
-    // above. Tests override this binding with an in-memory fake.
+    // Gacela resolves ProductRepository (injecting the EntityManagerInterface bound
+    // above) wherever ProductRepositoryInterface is requested. Tests override this
+    // binding with an in-memory fake.
     $config->addBinding(ProductRepositoryInterface::class, ProductRepository::class);
 };

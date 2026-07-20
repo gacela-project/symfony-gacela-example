@@ -47,14 +47,12 @@ abstract class AbstractTransfer
      */
     public function __call(string $name, array $arguments = [])
     {
-        // fluent getters
         $withoutPrefix = (string)preg_replace('/^get/', '', $name);
         $normalizedName = lcfirst($withoutPrefix);
         if (property_exists($this, $normalizedName)) {
             return $this->{$normalizedName};
         }
 
-        // fluent setters
         $withoutPrefix = (string)preg_replace('/^set/', '', $name);
         $normalizedName = lcfirst($withoutPrefix);
         if (property_exists($this, $normalizedName)) {

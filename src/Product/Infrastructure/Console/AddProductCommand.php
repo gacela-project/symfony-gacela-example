@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Console;
 
+use App\Product\Infrastructure\PriceInput;
 use App\Product\ProductFacade;
 use Gacela\Framework\ServiceResolverAwareTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -32,23 +33,10 @@ final class AddProductCommand extends Command
         $priceArgument = $input->getArgument('price');
         $price = is_string($priceArgument) ? $priceArgument : null;
 
-        $this->getFacade()->createNewProduct($name, $this->validatePriceInput($price));
+        $this->getFacade()->createNewProduct($name, PriceInput::parse($price));
 
         $output->writeln($name . ' product created successfully');
 
         return Command::SUCCESS;
-    }
-
-    private function validatePriceInput(?string $price): ?int
-    {
-        if ($price === null) {
-            return null;
-        }
-
-        if (filter_var($price, FILTER_VALIDATE_INT) === 0 || !filter_var($price, FILTER_VALIDATE_INT) === false) {
-            return (int)$price;
-        }
-
-        throw new \RuntimeException('Second parameter [price] must be of type integer');
     }
 }
