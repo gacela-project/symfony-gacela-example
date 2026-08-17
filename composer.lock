@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b671abf1b9d48c3712c47c1c7266ad1a",
+    "content-hash": "5b2ff92f4c45fd8922177cb6df86718a",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -1309,30 +1309,30 @@
         },
         {
             "name": "gacela-project/gacela-env-config-reader",
-            "version": "0.3",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela-env-config-reader.git",
-                "reference": "9e30d4e2a08acfb3a57702906ba77b9257d57376"
+                "reference": "0ecbe5e6c947379a2a07725f6f4c74f367e45af9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela-env-config-reader/zipball/9e30d4e2a08acfb3a57702906ba77b9257d57376",
-                "reference": "9e30d4e2a08acfb3a57702906ba77b9257d57376",
+                "url": "https://api.github.com/repos/gacela-project/gacela-env-config-reader/zipball/0ecbe5e6c947379a2a07725f6f4c74f367e45af9",
+                "reference": "0ecbe5e6c947379a2a07725f6f4c74f367e45af9",
                 "shasum": ""
             },
             "require": {
-                "gacela-project/gacela": ">=1.7",
-                "php": ">=8.0",
-                "symfony/dotenv": "^v6.4"
+                "gacela-project/gacela": "^2.4",
+                "php": ">=8.3",
+                "symfony/dotenv": "^6.4 || ^7.0 || ^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.59",
-                "phpstan/phpstan": "^1.11",
-                "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.18",
-                "symfony/var-dumper": "^5.4",
-                "vimeo/psalm": "^5.25"
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5 || ^12.0",
+                "psalm/plugin-phpunit": "^0.19.7",
+                "symfony/var-dumper": "^6.4 || ^7.0 || ^8.0",
+                "vimeo/psalm": "^6.16"
             },
             "type": "library",
             "autoload": {
@@ -1352,7 +1352,8 @@
                 },
                 {
                     "name": "Jesus Valera Reales",
-                    "email": "jesus1902@outlook.com"
+                    "email": "hello@jesusvalera.dev",
+                    "homepage": "https://jesusvalera.dev/"
                 }
             ],
             "description": "Load .env files into Gacela",
@@ -1363,9 +1364,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela-env-config-reader/issues",
-                "source": "https://github.com/gacela-project/gacela-env-config-reader/tree/0.3"
+                "source": "https://github.com/gacela-project/gacela-env-config-reader/tree/0.4.0"
             },
-            "time": "2024-06-28T18:52:53+00:00"
+            "time": "2026-08-17T19:46:30+00:00"
         },
         {
             "name": "psr/cache",
