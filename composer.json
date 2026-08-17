@@ -5,13 +5,13 @@
     "keywords": ["framework", "gacela", "symfony"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
-        "gacela-project/gacela": "^1.18",
+        "gacela-project/gacela": "^2.4",
         "gacela-project/gacela-env-config-reader": "^0.3",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "^6.4",
@@ -21,7 +21,6 @@
         "symfony/yaml": "7.4.*"
     },
     "require-dev": {
-        "gacela-project/phpstan-extension": "^0.4",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-doctrine": "^2.0",
         "phpunit/phpunit": "^11.5",
@@ -66,7 +65,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.2"
+            "php": "8.3"
         },
         "optimize-autoloader": true,
         "preferred-install": {
