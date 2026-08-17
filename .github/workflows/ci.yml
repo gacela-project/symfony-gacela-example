@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: [ '8.2', '8.3', '8.4' ]
+        php-version: [ '8.3', '8.4' ]
 
     steps:
       - name: Checkout
@@ -52,3 +52,10 @@ jobs:
 
       - name: Tests (PHPUnit)
         run: composer test
+
+      # An example application is only worth what it does when you run it, and
+      # a green unit suite says nothing about whether the kernel still boots
+      # Gacela. This walks the README: migrate, write through a Gacela module,
+      # read back, and check the wiring reports itself healthy.
+      - name: Smoke test (the README's own instructions)
+        run: composer smoke

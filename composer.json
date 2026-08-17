@@ -58,6 +58,14 @@
         ],
         "phpstan": [
             "vendor/bin/phpstan analyse --memory-limit=1G"
+        ],
+        "smoke": [
+            "bin/console doctrine:migrations:migrate --no-interaction",
+            "bin/console gacela:doctor --strict",
+            "bin/console gacela:debug:modules --check",
+            "bin/console gacela:product:add 'CI Smoke Product' 42",
+            "bin/console gacela:product:list | grep -q 'CI Smoke Product'",
+            "bin/console cache:warmup --env=prod"
         ]
     },
     "extra": {
