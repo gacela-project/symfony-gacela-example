@@ -6,6 +6,7 @@ namespace App\Product\Infrastructure\Controller;
 
 use App\Product\Infrastructure\PriceInput;
 use App\Product\ProductFacade;
+use Gacela\Framework\ServiceResolver\ServiceMap;
 use Gacela\Framework\ServiceResolverAwareTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @method ProductFacade getFacade()
  */
+#[ServiceMap(method: 'getFacade', className: ProductFacade::class)]
 final class AddProductController extends AbstractController
 {
     use ServiceResolverAwareTrait;

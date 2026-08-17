@@ -1,5 +1,7 @@
 includes:
-    - vendor/gacela-project/phpstan-extension/extension.neon
+    # Gacela's rules ship with the framework itself — there is no separate
+    # extension package to require.
+    - vendor/gacela-project/gacela/phpstan-gacela.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-doctrine/rules.neon
 
@@ -11,7 +13,33 @@ parameters:
     level: 8
     paths:
         - src
-    gacela:
-        modulesNamespace: App
-        excludedNamespaces:
-            - App\Shared
+
+services:
+    # Module boundaries: a module may only be reached through its Facade.
+    # Both halves of the check are enabled together — the first matches names
+    # written at the call site, the second resolves a method call's receiver by
+    # type, which is how a boundary is crossed once dependencies arrive through
+    # a Provider.
+    -
+        class: Gacela\PHPStan\Rules\CrossModuleViaFacadeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            rootNamespace: App
+            modulePathSegments: 1
+            sharedNamespaces:
+                - App\Shared
+    -
+        class: Gacela\PHPStan\Rules\CrossModuleMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            rootNamespace: App
+            modulePathSegments: 1
+            sharedNamespaces:
+                - App\Shared
+
+    # Pillar accessors still resolved from a `@method` docblock, which 3.0
+    # removes in favour of #[ServiceMap]. Opt-in, and this project has already
+    # done that migration — keeping it on is what stops it regressing.
+    -
+        class: Gacela\PHPStan\Rules\ServiceMapMissingRule
+        tags: [phpstan.rules.rule]

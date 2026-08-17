@@ -2,8 +2,6 @@
 <?php
 
 use App\Kernel;
-use Gacela\Framework\Bootstrap\GacelaConfig;
-use Gacela\Framework\Gacela;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Dotenv\Dotenv;
@@ -42,14 +40,10 @@ if ($_SERVER['APP_DEBUG']) {
     }
 }
 
+// Gacela is bootstrapped by GacelaBundle when the kernel boots — see
+// config/bundles.php and config/packages/gacela.yaml. That is also what puts
+// Gacela's own commands into this application, under `gacela:`.
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-
-Gacela::bootstrap(
-    $kernel->getProjectDir(),
-    static function (GacelaConfig $config) use ($kernel) {
-        $config->addExternalService('symfony/kernel', $kernel);
-    }
-);
 
 $application = new Application($kernel);
 $application->run($input);

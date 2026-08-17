@@ -6,6 +6,7 @@ namespace App\Product\Infrastructure\Console;
 
 use App\Product\Infrastructure\PriceInput;
 use App\Product\ProductFacade;
+use Gacela\Framework\ServiceResolver\ServiceMap;
 use Gacela\Framework\ServiceResolverAwareTrait;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @method ProductFacade getFacade()
  */
+#[ServiceMap(method: 'getFacade', className: ProductFacade::class)]
 #[AsCommand(name: 'gacela:product:add', description: 'Add new product')]
 final class AddProductCommand extends Command
 {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d18294ec603cf4755ca60a0d36918e03",
+    "content-hash": "b671abf1b9d48c3712c47c1c7266ad1a",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -1123,30 +1123,38 @@
         },
         {
             "name": "gacela-project/container",
-            "version": "0.10.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/container.git",
-                "reference": "db13556a11f6892c852ef0f26a9915aee2a3ba4e"
+                "reference": "faa1e00cafca1e2d02938adaf204fc38abfbe64a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/container/zipball/db13556a11f6892c852ef0f26a9915aee2a3ba4e",
-                "reference": "db13556a11f6892c852ef0f26a9915aee2a3ba4e",
+                "url": "https://api.github.com/repos/gacela-project/container/zipball/faa1e00cafca1e2d02938adaf204fc38abfbe64a",
+                "reference": "faa1e00cafca1e2d02938adaf204fc38abfbe64a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
-                "psr/container": ">=1.1"
+                "php": ">=8.3",
+                "psr/container": "^1.1 || ^2.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.75",
-                "phpstan/phpstan": "^1.12",
-                "phpunit/phpunit": "^10.5",
-                "psalm/plugin-phpunit": "^0.18",
-                "symfony/var-dumper": "^5.4",
-                "vimeo/psalm": "^5.26"
+                "infection/infection": "^0.31 || ^0.34",
+                "phpbench/phpbench": "^1.4",
+                "phpstan/phpstan": "^2.2",
+                "phpunit/phpunit": "^12.5",
+                "symfony/var-dumper": "^6.4 || ^7.0",
+                "symfony/yaml": "^6.4 || ^7.0",
+                "vimeo/psalm": "^6.16"
             },
+            "suggest": {
+                "symfony/yaml": "To load container definitions from .yaml/.yml files with loadFile(); not required — parse it yourself and use load()"
+            },
+            "bin": [
+                "bin/gacela-container"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1179,7 +1187,7 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/container/issues",
-                "source": "https://github.com/gacela-project/container/tree/0.10.0"
+                "source": "https://github.com/gacela-project/container/tree/2.1.0"
             },
             "funding": [
                 {
@@ -1187,56 +1195,80 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-07-19T22:59:58+00:00"
+            "time": "2026-08-17T17:53:52+00:00"
         },
         {
             "name": "gacela-project/gacela",
-            "version": "1.18.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gacela-project/gacela.git",
-                "reference": "d4f91871da18de2cdcc651c571d3932489436411"
+                "reference": "c148b7f1fd44d84d8d71a5b84c7a882e7a86c75a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/d4f91871da18de2cdcc651c571d3932489436411",
-                "reference": "d4f91871da18de2cdcc651c571d3932489436411",
+                "url": "https://api.github.com/repos/gacela-project/gacela/zipball/c148b7f1fd44d84d8d71a5b84c7a882e7a86c75a",
+                "reference": "c148b7f1fd44d84d8d71a5b84c7a882e7a86c75a",
                 "shasum": ""
             },
             "require": {
-                "gacela-project/container": "^0.10.0",
-                "php": ">=8.1"
+                "gacela-project/container": "^2.1",
+                "php": ">=8.3",
+                "psr/event-dispatcher": "^1.0"
             },
             "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8",
                 "ergebnis/composer-normalize": "^2.50",
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "infection/infection": "^0.29",
+                "illuminate/config": "^11.28 || ^12.0",
+                "illuminate/console": "^11.28 || ^12.0",
+                "illuminate/container": "^11.28 || ^12.0",
+                "illuminate/contracts": "^11.28 || ^12.0",
+                "illuminate/events": "^11.28 || ^12.0",
+                "illuminate/support": "^11.28 || ^12.0",
+                "infection/infection": "^0.34",
+                "nikic/php-parser": "^5.4",
                 "phpbench/phpbench": "^1.4",
                 "phpmetrics/phpmetrics": "^2.9",
                 "phpstan/phpstan": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^10.5",
-                "psalm/plugin-phpunit": "^0.19.5",
-                "rector/rector": "^2.0",
-                "symfony/console": "^6.4",
-                "symfony/dependency-injection": "^6.4",
-                "symfony/var-dumper": "^6.4",
+                "phpunit/phpunit": "^12.5",
+                "psalm/plugin-phpunit": "^0.19.7",
+                "symfony/config": "^7.0 || ^8.0",
+                "symfony/console": "^7.0 || ^8.0",
+                "symfony/dependency-injection": "^7.0 || ^8.0",
+                "symfony/http-kernel": "^7.0 || ^8.0",
+                "symfony/var-dumper": "^7.0 || ^8.0",
                 "vimeo/psalm": "^6.16"
             },
             "suggest": {
                 "gacela-project/gacela-env-config-reader": "Allows to read .env config files",
                 "gacela-project/gacela-yaml-config-reader": "Allows to read yml/yaml config files",
-                "gacela-project/phpstan-extension": "A set of phpstan rules for Gacela",
+                "illuminate/support": "Allows to register Gacela\\LaravelBridge\\GacelaServiceProvider in a Laravel application",
                 "phpunit/phpunit": "Allows to extend Gacela\\Framework\\Testing\\GacelaTestCase in your tests",
-                "symfony/console": "Allows to use vendor/bin/gacela script"
+                "symfony/console": "Allows to use vendor/bin/gacela script",
+                "symfony/http-kernel": "Allows to register Gacela\\SymfonyBridge\\GacelaBundle in a Symfony application"
             },
             "bin": [
                 "bin/gacela"
             ],
             "type": "library",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "phpstan-gacela.neon"
+                    ]
+                },
+                "bamarni-bin": {
+                    "bin-links": false,
+                    "forward-command": true
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "Gacela\\": "src/"
+                    "Gacela\\": "src/",
+                    "Gacela\\LaravelBridge\\": "bridges/laravel-bridge/src/",
+                    "Gacela\\SymfonyBridge\\": "bridges/symfony-bridge/src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1265,7 +1297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/gacela-project/gacela/issues",
-                "source": "https://github.com/gacela-project/gacela/tree/1.18.0"
+                "source": "https://github.com/gacela-project/gacela/tree/2.4.0"
             },
             "funding": [
                 {
@@ -1273,7 +1305,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-07-20T05:33:57+00:00"
+            "time": "2026-08-17T19:12:54+00:00"
         },
         {
             "name": "gacela-project/gacela-env-config-reader",
@@ -2168,16 +2200,16 @@
         },
         {
             "name": "symfony/dotenv",
-            "version": "v6.4.42",
+            "version": "v6.4.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dotenv.git",
-                "reference": "d71597dab17919afbdffa4de14177137a4d56fdc"
+                "reference": "9b827002b54f89a5ac605c21c349a42161996afb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dotenv/zipball/d71597dab17919afbdffa4de14177137a4d56fdc",
-                "reference": "d71597dab17919afbdffa4de14177137a4d56fdc",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/9b827002b54f89a5ac605c21c349a42161996afb",
+                "reference": "9b827002b54f89a5ac605c21c349a42161996afb",
                 "shasum": ""
             },
             "require": {
@@ -2222,7 +2254,7 @@
                 "environment"
             ],
             "support": {
-                "source": "https://github.com/symfony/dotenv/tree/v6.4.42"
+                "source": "https://github.com/symfony/dotenv/tree/v6.4.43"
             },
             "funding": [
                 {
@@ -2242,7 +2274,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:18:55+00:00"
+            "time": "2026-07-26T10:10:07+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -4415,68 +4447,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "gacela-project/phpstan-extension",
-            "version": "0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gacela-project/phpstan-extension.git",
-                "reference": "d4aa933e0dc8ae1daa103b1b2530103504097ff6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gacela-project/phpstan-extension/zipball/d4aa933e0dc8ae1daa103b1b2530103504097ff6",
-                "reference": "d4aa933e0dc8ae1daa103b1b2530103504097ff6",
-                "shasum": ""
-            },
-            "require": {
-                "gacela-project/gacela": ">=0.1",
-                "php": ">=8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.62",
-                "phpstan/phpstan": "^1.11",
-                "phpunit/phpunit": "^9.6",
-                "psalm/plugin-phpunit": "^0.18",
-                "symfony/var-dumper": "^5.4",
-                "vimeo/psalm": "^5.25"
-            },
-            "suggest": {
-                "gacela-project/gacela": "Gacela helps you build modular PHP applications. It helps normalizing the entry point of a module, without interfering with your domain-business logic."
-            },
-            "type": "phpstan-extension",
-            "autoload": {
-                "psr-4": {
-                    "GacelaProject\\PhpstanExtension\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jose M. Valera Reales",
-                    "email": "chemaclass@outlook.es"
-                },
-                {
-                    "name": "Dave Liddament",
-                    "email": "dave@lampbristol.com"
-                }
-            ],
-            "description": "PHPStan rule for projects using Gacela",
-            "support": {
-                "issues": "https://github.com/gacela-project/phpstan-extension/issues",
-                "source": "https://github.com/gacela-project/phpstan-extension/tree/0.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://chemaclass.com/sponsor",
-                    "type": "custom"
-                }
-            ],
-            "time": "2024-08-11T17:35:15+00:00"
-        },
         {
             "name": "myclabs/deep-copy",
             "version": "1.13.4",
@@ -7762,13 +7732,13 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.2"
+        "php": "8.3"
     },
     "plugin-api-version": "2.6.0"
 }

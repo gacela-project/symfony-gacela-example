@@ -19,14 +19,14 @@ Gacela organizes your code into **modules** with a small, predictable surface bu
 Because every module is reached through its Facade, boundaries stay explicit and the domain code stays
 framework-agnostic. **Symfony** brings the runtime you still want — HTTP kernel, routing, console, and the DI
 container that manages infrastructure such as Doctrine and Twig — while **Gacela** sits on top and keeps the
-application layer modular. The glue is a single binding: Gacela hands your factories the services Symfony already
-built (e.g. the Doctrine `EntityManager`).
+application layer modular. The glue is a bundle Gacela ships with: it boots Gacela from the kernel and hands
+your factories the services Symfony already built (e.g. the Doctrine `EntityManager`).
 
 ## Requirements
 
-- PHP **8.2+**
+- PHP **8.3+**
 - Symfony **7.4** (LTS)
-- Gacela **1.18+**
+- Gacela **2.4+**
 - Doctrine **ORM 3** (this example uses SQLite, so there is nothing to install)
 
 ## Getting started
@@ -60,61 +60,85 @@ curl "http://localhost:8000/list"
 
 ```bash
 composer test      # PHPUnit 11
-composer phpstan   # PHPStan level 8 (Gacela + Doctrine extensions)
+composer phpstan   # PHPStan level 8 (Gacela + Doctrine rules)
+composer smoke     # migrate, doctor, write and read a product, warm the prod cache
 ```
 
-CI (`.github/workflows/ci.yml`) runs `composer validate`, PHPStan and PHPUnit on PHP 8.2, 8.3 and 8.4.
+`composer smoke` is the one that matters for an example application: a green unit suite says nothing about
+whether the kernel still boots Gacela, so CI walks the instructions above instead.
+
+CI (`.github/workflows/ci.yml`) runs `composer validate`, PHPStan, PHPUnit and the smoke test on PHP 8.3 and 8.4.
 
 ## How Gacela plugs into Symfony
 
-There are three integration points, all already wired in this repo.
-
-**1. Symfony boots, then hands its Kernel to Gacela.** Both entry points (`public/index.php` for HTTP and
-`bin/console` for the CLI) create the Symfony `Kernel` and share it with Gacela as an *external service*:
+**Register the bundle. That is the integration.**
 
 ```php
-// public/index.php (and bin/console do the same)
-$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
-
-Gacela::bootstrap($kernel->getProjectDir(), static function (GacelaConfig $config) use ($kernel): void {
-    $config->addExternalService('symfony/kernel', $kernel);
-});
+// config/bundles.php
+Gacela\SymfonyBridge\GacelaBundle::class => ['all' => true],
 ```
 
-**2. `gacela.php` reads that Kernel and declares the module bindings.** This is the heart of the integration:
-it loads the app config from the `.env` files and binds the repository abstraction to a Doctrine implementation
-that reuses Symfony's already-wired `EntityManager`:
+There is nothing extra to require — the bundle ships inside `gacela-project/gacela` itself. Registering it
+gives you four things:
+
+1. **Gacela bootstrapped from the kernel**, with the project dir as the application root, honouring
+   `gacela.php`. Every boot bootstraps again, so a kernel rebooted inside one process — which functional tests
+   do constantly — runs on its own configuration rather than the previous boot's.
+2. **Symfony services reachable from Gacela** — the ones you list, and only those.
+3. **Gacela's commands in `bin/console`**, under a `gacela:` prefix.
+4. **`cache:warmup` warms Gacela's caches too**, so a deploy has one warmup step instead of two.
+
+Neither entry point knows Gacela exists: `public/index.php` and `bin/console` are the stock Symfony ones.
+
+### 1. `config/packages/gacela.yaml` — what Gacela may reach
+
+```yaml
+gacela:
+    app_root_dir: '%kernel.project_dir%'   # where gacela.php lives
+    project_namespaces: ['App']
+
+    cache_dir: '%kernel.cache_dir%/gacela' # cache:clear clears both, cache:warmup warms both
+    file_cache: false                      # true in config/packages/prod/gacela.yaml
+
+    external_services:
+        Doctrine\ORM\EntityManagerInterface: 'doctrine.orm.entity_manager'
+```
+
+`external_services` maps a Gacela key to a Symfony service id, and **what the key is decides how far the
+service travels**. This one names a type, so the bridge registers it as a Gacela *binding* as well: Gacela
+autowires `ProductRepository`'s constructor with the `EntityManager` Doctrine already built, and this project
+writes no wiring for it at all. A key that names no type — `report_mailer: 'app.mailer'` — stays an external
+service, which is what `gacela.php` reads through `getExternalService()`.
+
+Either way the service is fetched through a service locator when Gacela asks for it, so listing one does not
+construct it. Every key is validated at compile time, so a typo fails the build rather than quietly
+configuring nothing.
+
+### 2. `gacela.php` — the module's own bindings
+
+What is left here is the part Symfony has no opinion about: the app config, and the port bound to its adapter.
 
 ```php
 // gacela.php
 return static function (GacelaConfig $config): void {
     $config->addAppConfig('.env*', '.env', EnvConfigReader::class);
 
-    // Reuse the EntityManager built by the Symfony container. The lookup is deferred
-    // into the binding so the standalone `vendor/bin/gacela` CLI can still boot.
-    $config->addBinding(
-        EntityManagerInterface::class,
-        static function () use ($config) {
-            /** @var Kernel $kernel */
-            $kernel = $config->getExternalService('symfony/kernel');
-
-            return $kernel->getContainer()->get('doctrine.orm.entity_manager');
-        }
-    );
-
-    // Bind the port to its Doctrine adapter (tests override this with an in-memory fake).
+    // Tests override this binding with an in-memory fake.
     $config->addBinding(ProductRepositoryInterface::class, ProductRepository::class);
 };
 ```
 
-**3. A Symfony controller/command reaches into a Gacela Facade.** Symfony still owns and autowires the
-controller; Gacela's `ServiceResolverAwareTrait` adds a `getFacade()` that resolves the Facade of the module the
-class lives in — declared via the `@method` docblock:
+### 3. A Symfony controller/command reaches into a Gacela Facade
+
+Symfony still owns and autowires the controller; Gacela's `ServiceResolverAwareTrait` adds a `getFacade()`
+that resolves the Facade of the module the class lives in. `#[ServiceMap]` declares which one, so the call is
+*typed* — PHPStan checks `createNewProduct()` and everything else reached through the accessor:
 
 ```php
 /**
  * @method ProductFacade getFacade()
  */
+#[ServiceMap(method: 'getFacade', className: ProductFacade::class)]
 final class AddProductController extends AbstractController
 {
     use ServiceResolverAwareTrait;
@@ -126,6 +150,9 @@ final class AddProductController extends AbstractController
     }
 }
 ```
+
+The `@method` docblock beside it is for IDE completion; both being present is supported and recommended.
+`vendor/bin/gacela migrate:service-map` writes the attribute for every accessor in a project at once.
 
 Console commands do the same, and are registered with Symfony through the `#[AsCommand]` attribute.
 
@@ -154,9 +181,12 @@ framework-agnostic PHP until the Infrastructure layer talks to Doctrine:
      │                            gacela.php
      ▼
  ProductRepository ───────────────────────────  Infrastructure · Doctrine adapter
+     │                         autowired from
+     ▼                        gacela.yaml's
+ Doctrine EntityManager  ◀── external_services ──  Symfony's own, not a second one
      │
      ▼
- Doctrine EntityManager  ─▶  SQLite
+   SQLite
 ```
 
 Mapped onto the directory layout:
@@ -184,15 +214,22 @@ src/Product/
 Gacela ships a scaffolder. From the project root:
 
 ```bash
-vendor/bin/gacela make:module App/Payment
+bin/console gacela:make:module App/Payment
 # > src/Payment/PaymentFacade.php, PaymentFactory.php, PaymentConfig.php, PaymentProvider.php
 ```
+
+The prefix is not decoration: Symfony's MakerBundle owns the whole `make:*` namespace, so an unprefixed
+`make:module` would collide with it.
 
 The `<path>` must match a PSR-4 root (here `App` → `src/`). Useful options:
 
 - `--template=service` — scaffold a Facade already wired to a Domain service (like `Product`).
 - `--with-tests` — also generate a facade test (with the `service` template).
 - `--short-name` — drop the module prefix from the generated class names.
+- `--dry-run` — report the files that would be written, and write nothing.
+
+Generating over a file that already exists is refused: the run writes nothing and exits `1`. Pass `--force`
+if replacing really is the intent.
 
 Prefer to write it by hand? Create the four pillar classes next to each other and Gacela resolves them by
 convention:
@@ -205,19 +242,26 @@ src/Payment/
 └── PaymentProvider.php   # extends Gacela\Framework\AbstractProvider
 ```
 
-## Gacela CLI & tooling (1.18)
+## Gacela CLI & tooling
 
-`vendor/bin/gacela` inspects and validates your modules without booting Symfony. A few highlights:
+The bundle puts Gacela's own commands into `bin/console`, so they run against the same configuration the
+application does — including the Symfony services listed in `gacela.yaml`:
 
 ```bash
-vendor/bin/gacela debug:module Product   # pillars, container bindings, dependency tree of a module
-vendor/bin/gacela debug:graph            # which module imports which
-vendor/bin/gacela list:modules           # table of every module and the pillars it defines
-vendor/bin/gacela doctor                 # health checks for the current Gacela setup
-vendor/bin/gacela list                   # all available commands (debug:*, make:*, validate:config, ...)
+bin/console list gacela                  # every gacela:* command
+bin/console gacela:debug:module Product  # pillars, container bindings, dependency tree of a module
+bin/console gacela:debug:config          # the effective merged configuration
+bin/console gacela:debug:graph           # which module imports which
+bin/console gacela:list:modules          # table of every module and the pillars it defines
+bin/console gacela:doctor                # health checks for the current Gacela setup (--strict fails on warnings)
 ```
 
-For example, `debug:module Product` reflects the bindings declared in `gacela.php`:
+`vendor/bin/gacela` still works and needs no kernel, which makes it the faster option for a check that does
+not depend on a Symfony service. It reads `gacela.php` only, so the `EntityManagerInterface` binding — which
+lives in `gacela.yaml` — is not there.
+
+For example, `debug:module Product` shows both halves of the wiring, the binding from `gacela.yaml` and the
+one from `gacela.php`:
 
 ```
 Module: Product
@@ -225,9 +269,15 @@ Module: Product
   Factory   → App\Product\ProductFactory
   Config    → App\Product\ProductConfig
   Provider  → App\Product\ProductProvider
-  Bindings:
+  Provides (#[Provides]):
+    (none)
+  Public API (#[PublicApi] + namespace convention):
+    (none)
+  Application bindings (project-wide):
     Doctrine\ORM\EntityManagerInterface => Closure
     App\Product\Domain\ProductRepositoryInterface => App\Product\Infrastructure\Persistence\ProductRepository
+  Dependency tree (Facade):
+    (no dependencies)
 ```
 
 ### Testing modules
