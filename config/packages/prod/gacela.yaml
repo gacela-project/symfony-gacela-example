@@ -1,0 +1,4 @@
+gacela:
+    # Resolve modules from disk once and cache the answer. `cache:warmup` fills
+    # it, so a deploy has one warmup step rather than two.
+    file_cache: true

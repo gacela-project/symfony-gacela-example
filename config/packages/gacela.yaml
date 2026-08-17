@@ -1,0 +1,28 @@
+gacela:
+    # Where gacela.php lives. This is the default; spelled out because it is the
+    # one key worth seeing in an example.
+    app_root_dir: '%kernel.project_dir%'
+
+    # Namespaces Gacela scans for modules. `App` is this project's PSR-4 root.
+    project_namespaces: ['App']
+
+    # Gacela's caches live under Symfony's, so `bin/console cache:clear` clears
+    # both and `cache:warmup` warms both. Off in dev/test, on in prod
+    # (config/packages/prod/gacela.yaml).
+    cache_dir: '%kernel.cache_dir%/gacela'
+    file_cache: false
+
+    # Symfony services Gacela may reach. The key names a type, so the bridge
+    # registers it as a Gacela binding too: ProductRepository's constructor is
+    # autowired with the EntityManager Doctrine already built, without this
+    # project writing a line of wiring for it.
+    #
+    # Listing a service does not construct it — it is fetched through a service
+    # locator when Gacela asks.
+    external_services:
+        Doctrine\ORM\EntityManagerInterface: 'doctrine.orm.entity_manager'
+
+    # Gacela's own commands, under `bin/console gacela:*`. The prefix is not
+    # decoration: MakerBundle owns the whole `make:*` namespace.
+    register_commands: true
+    command_prefix: 'gacela:'

@@ -14,9 +14,13 @@
         "gacela-project/gacela": "^2.4",
         "gacela-project/gacela-env-config-reader": "^0.3",
         "symfony/console": "7.4.*",
+        "symfony/dependency-injection": "7.4.*",
         "symfony/dotenv": "^6.4",
         "symfony/flex": "^2.4",
         "symfony/framework-bundle": "7.4.*",
+        "symfony/http-foundation": "7.4.*",
+        "symfony/http-kernel": "7.4.*",
+        "symfony/routing": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/yaml": "7.4.*"
     },

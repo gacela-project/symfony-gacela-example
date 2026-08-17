@@ -3,15 +3,13 @@
 declare(strict_types=1);
 
 use App\Kernel;
-use Gacela\Framework\Bootstrap\GacelaConfig;
-use Gacela\Framework\Gacela;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require \dirname(__DIR__) . '/vendor/autoload.php';
 
-(new Dotenv())->bootEnv(dirname(__DIR__) . '/.env');
+(new Dotenv())->bootEnv(\dirname(__DIR__) . '/.env');
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
@@ -19,14 +17,9 @@ if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
 
+// Gacela is bootstrapped by GacelaBundle when the kernel boots — see
+// config/bundles.php and config/packages/gacela.yaml.
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
-
-Gacela::bootstrap(
-    $kernel->getProjectDir(),
-    static function (GacelaConfig $config) use ($kernel) {
-        $config->addExternalService('symfony/kernel', $kernel);
-    }
-);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
