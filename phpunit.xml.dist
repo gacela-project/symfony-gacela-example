@@ -12,6 +12,8 @@
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
+        <!-- Each kernel gets its own empty database, and no test writes to var/data.db. -->
+        <server name="DATABASE_URL" value="sqlite:///:memory:" force="true" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="11.5" />
     </php>

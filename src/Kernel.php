@@ -13,8 +13,8 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerConfigurator $container): void
     {
-        $container->import('../config/{packages}/*.{php,yaml}');
-        $container->import('../config/{packages}/'.$this->environment.'/*.{php,yaml}');
+        $container->import($this->getProjectDir().'/config/{packages}/*.{php,yaml}');
+        $container->import($this->getProjectDir().'/config/{packages}/'.$this->environment.'/*.{php,yaml}');
 
         if (is_file($path = \dirname(__DIR__).'/config/services.php')) {
             (require $path)($container->withPath($path), $this);
@@ -23,7 +23,7 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $routes->import('../config/{routes}/'.$this->environment.'/*.php');
-        $routes->import('../config/{routes}/*.php');
+        $routes->import($this->getProjectDir().'/config/{routes}/'.$this->environment.'/*.php');
+        $routes->import($this->getProjectDir().'/config/{routes}/*.php');
     }
 }

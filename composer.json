@@ -11,7 +11,7 @@
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
-        "gacela-project/gacela": "^2.4",
+        "gacela-project/gacela": "^2.6",
         "gacela-project/gacela-env-config-reader": "^0.4",
         "symfony/console": "7.4.*",
         "symfony/dependency-injection": "7.4.*",
@@ -21,6 +21,7 @@
         "symfony/http-foundation": "7.4.*",
         "symfony/http-kernel": "7.4.*",
         "symfony/routing": "7.4.*",
+        "symfony/runtime": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/yaml": "7.4.*"
     },
@@ -85,7 +86,8 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "replace": {

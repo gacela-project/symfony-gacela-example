@@ -24,8 +24,9 @@ final class ProductFactory extends AbstractFactory
 
     public function createProductLister(): ProductLister
     {
-        return new ProductLister(
-            $this->getProductRepository(),
+        return $this->singleton(
+            ProductLister::class,
+            fn (): ProductLister => new ProductLister($this->getProductRepository()),
         );
     }
 
