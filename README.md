@@ -26,7 +26,7 @@ your factories the services Symfony already built (e.g. the Doctrine `EntityMana
 
 - PHP **8.3+**
 - Symfony **7.4** (LTS)
-- Gacela **2.4+**
+- Gacela **2.6+**
 - Doctrine **ORM 3** (this example uses SQLite, so there is nothing to install)
 
 ## Getting started
@@ -56,6 +56,29 @@ curl "http://localhost:8000/list"
 | `product_list` | GET    | `/list`             | `ListProductController` |
 | `product_add`  | GET    | `/add/{name}/{price}` | `AddProductController` |
 
+### FrankenPHP worker mode
+
+In worker mode one PHP process boots the kernel once and serves request after request with it. The front
+controller is the stock `symfony/runtime` one, and Symfony 7.4's runtime switches to its FrankenPHP worker loop
+on its own when FrankenPHP starts it as a worker. Get the binary from [frankenphp.dev](https://frankenphp.dev)
+(it is not committed here), then:
+
+```bash
+frankenphp php-server --listen 127.0.0.1:8000 --root public/ --worker public/index.php
+```
+
+`FRANKENPHP_LOOP_MAX` (default 500) restarts a worker after that many requests.
+
+A process that outlives a request must not carry one request's state into the next. The bundle registers a
+`kernel.reset` service, so Symfony's services resetter calls `Gacela::resetRequestState()` between requests:
+the next request gets new Factories and new services, and keeps the warm caches. `ProductLister` shows why it
+matters. It reads the products once per request, and `ProductFactory` shares it with `singleton()`; without the
+reset, a worker would serve the first request's list forever.
+
+`tests/Integration/WorkerMode/TwoRequestsInOneProcessTest.php` proves it without a server: one kernel handles
+several requests, as a worker does. A product added by the second request shows up in the third. The control
+kernel drops the bundle's reset and serves the old list.
+
 ### Quality tooling
 
 ```bash
@@ -79,7 +102,7 @@ Gacela\SymfonyBridge\GacelaBundle::class => ['all' => true],
 ```
 
 There is nothing extra to require — the bundle ships inside `gacela-project/gacela` itself. Registering it
-gives you four things:
+gives you five things:
 
 1. **Gacela bootstrapped from the kernel**, with the project dir as the application root, honouring
    `gacela.php`. Every boot bootstraps again, so a kernel rebooted inside one process — which functional tests
@@ -87,6 +110,8 @@ gives you four things:
 2. **Symfony services reachable from Gacela** — the ones you list, and only those.
 3. **Gacela's commands in `bin/console`**, under a `gacela:` prefix.
 4. **`cache:warmup` warms Gacela's caches too**, so a deploy has one warmup step instead of two.
+5. **Request state reset between requests** in a long-running worker (FrankenPHP worker mode, RoadRunner,
+   Messenger), through Symfony's `kernel.reset`.
 
 Neither entry point knows Gacela exists: `public/index.php` and `bin/console` are the stock Symfony ones.
 

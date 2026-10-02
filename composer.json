@@ -21,6 +21,7 @@
         "symfony/http-foundation": "7.4.*",
         "symfony/http-kernel": "7.4.*",
         "symfony/routing": "7.4.*",
+        "symfony/runtime": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/yaml": "7.4.*"
     },
@@ -85,7 +86,8 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         }
     },
     "replace": {

@@ -51,4 +51,15 @@ final class ProductListerTest extends TestCase
 
         self::assertSame([$product1, $product2], $productLister->findAll());
     }
+
+    public function test_reads_the_repository_once(): void
+    {
+        $fakeProductRepository = new FakeProductRepository();
+        $productLister = new ProductLister($fakeProductRepository);
+        $productLister->findAll();
+
+        $fakeProductRepository->save((new ProductTransfer())->setName('Product One')->setPrice(10));
+
+        self::assertSame([], $productLister->findAll());
+    }
 }
